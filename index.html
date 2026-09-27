@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="ParsecScope Medical Imaging AI research preview">
+<title>ParsecScope — Medical Imaging AI</title>
+<style>
+:root{--bg:#f4f8fb;--paper:#fff;--ink:#13212e;--muted:#637586;--line:#dce6ed;--brand:#0f6b91;--brand2:#143e50;--ok:#1f7a50;--warn:#9d6a11;--soft:#eef7fb}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(180deg,#f8fcfe,#edf3f7);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{position:sticky;top:0;background:#ffffffef;backdrop-filter:blur(12px);border-bottom:1px solid var(--line);z-index:10}
+.nav{max-width:1180px;margin:auto;padding:15px 24px;display:flex;justify-content:space-between;align-items:center;gap:18px}.brand{font-size:22px;font-weight:850;letter-spacing:-.03em}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-top:2px}.nav a{text-decoration:none;color:#345366;font-size:13px;font-weight:700}
+main{max-width:1180px;margin:auto;padding:58px 24px 80px}.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:34px;align-items:center}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.17em;color:var(--brand);font-weight:800}h1{font-size:clamp(42px,6.4vw,76px);line-height:.98;letter-spacing:-.055em;margin:12px 0 20px}.lead{font-size:19px;line-height:1.6;color:#526779;max-width:780px}.hero-card{background:linear-gradient(145deg,#0c6383,#173b4b);color:white;border-radius:24px;padding:28px;box-shadow:0 22px 55px #0e4d6824}.hero-card .big{font-size:34px;font-weight:850;margin:7px 0}.hero-card p{color:#d9edf5;line-height:1.5;margin:0}.notice{margin-top:23px;border:1px solid #e3d7b7;background:#fffaf0;color:#715321;border-radius:13px;padding:14px 16px;font-size:14px;line-height:1.5}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:44px}.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:22px}.card h3{margin:12px 0 8px}.card p{color:var(--muted);line-height:1.5;font-size:14px;margin:0}.num{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--soft);color:var(--brand);font-weight:800;font-size:13px}
+.section{margin-top:46px}.section h2{font-size:30px;letter-spacing:-.03em;margin-bottom:8px}.section>.sub{color:var(--muted);margin-top:0;line-height:1.55}.workspace{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px}.upload{display:block;border:1.5px dashed #9bb8c8;background:#f8fbfd;border-radius:16px;padding:28px;text-align:center;cursor:pointer}.upload input{display:block;margin:15px auto 0;max-width:100%}.filemeta{font-size:13px;color:var(--muted);margin-top:12px}.status{margin-top:15px;border-radius:12px;padding:13px;background:#fff9ed;border:1px solid #eadab3;color:#795821;font-size:13px;line-height:1.5}.status.ok{background:#f1faf5;border-color:#cce9d9;color:#285f43}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}.btn{border:0;border-radius:11px;padding:12px 16px;font:inherit;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block;background:#e7f0f4;color:#294654}.btn.primary{background:var(--brand);color:white}.btn[aria-disabled="true"]{opacity:.5;pointer-events:none}.result{min-height:230px}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.metric{background:#f7fafc;border:1px solid #e2e8ed;border-radius:12px;padding:13px}.metric span{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#74828f}.metric b{display:block;font-size:17px;margin-top:4px}.console{margin-top:14px;background:#0b1720;color:#cbe4ef;border-radius:13px;padding:14px;font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-break:break-word}
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}.road{background:#fff;border:1px solid var(--line);border-radius:13px;padding:15px;font-size:13px}.road strong{display:block;margin-bottom:6px}.done strong{color:var(--ok)}.now strong{color:var(--warn)}
+footer{border-top:1px solid var(--line);background:white;color:#75838f;font-size:12px;padding:24px}footer div{max-width:1180px;margin:auto}
+@media(max-width:850px){.hero,.workspace{grid-template-columns:1fr}.grid3{grid-template-columns:1fr}.roadmap{grid-template-columns:1fr 1fr}h1{font-size:47px}}
+@media(max-width:520px){.metrics,.roadmap{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="nav"><div class="brand">ParsecScope<small>Medical Imaging AI research preview</small></div><a href="#progress">Current progress</a></div></header>
+<main>
+<section class="hero">
+<div>
+<div class="eyebrow">3D medical-imaging research platform</div>
+<h1>From CT volume to structured AI research output.</h1>
+<p class="lead">ParsecScope is building a native C++ medical-imaging engine for volumetric CT analysis, with an emphasis on transparent engineering, reproducibility and control of the core technology stack.</p>
+<div class="notice"><strong>Research use only.</strong> ParsecScope is not clinically validated or cleared for diagnosis. Do not use this preview for patient-care decisions or upload identifiable patient data.</div>
+</div>
+<aside class="hero-card"><div>Current verified pipeline</div><div class="big">NIfTI → 3D AI</div><p>Native .nii/.nii.gz ingestion, geometry handling, KiTS23 preprocessing, sliding-window Generator3D execution, and restoration to source voxel geometry.</p></aside>
+</section>
+
+<section class="grid3">
+<article class="card"><div class="num">1</div><h3>Load research CT</h3><p>Native NIfTI and gzip ingestion with explicit spatial metadata handling.</p></article>
+<article class="card"><div class="num">2</div><h3>Run 3D inference</h3><p>Whole-volume patch scheduling and native Generator3D execution.</p></article>
+<article class="card"><div class="num">3</div><h3>Return source geometry</h3><p>Multi-channel model output can be mapped back to the original voxel-axis geometry.</p></article>
+</section>
+
+<section class="section">
+<h2>Client workflow preview</h2>
+<p class="sub">This stable public page demonstrates the intended end-client experience. File selection is local-only for now; secure Internet upload is the next product step.</p>
+<div class="workspace">
+<article class="card">
+<h3>Research CT volume</h3>
+<label class="upload">Choose a de-identified .nii or .nii.gz file<input id="file" type="file" accept=".nii,.nii.gz,.gz"></label>
+<div id="filemeta" class="filemeta">No file selected.</div>
+<div id="localStatus" class="status">Your selected file stays in your browser. Public upload is not enabled yet.</div>
+<div class="btns"><button id="snapshot" class="btn primary">View latest verified pipeline snapshot</button><a id="live" class="btn" aria-disabled="true">Live native demo offline</a></div>
+</article>
+<article class="card result">
+<h3>Verified engineering snapshot</h3>
+<div id="summary">Loading current project status…</div>
+<div id="metrics" class="metrics"></div>
+<div id="raw" class="console" hidden></div>
+</article>
+</div>
+</section>
+
+<section id="progress" class="section">
+<h2>Current product progress</h2>
+<p class="sub">The stable client page is separated from temporary compute. A live native backend can be attached when a development runner is active without making the website itself disappear.</p>
+<div class="roadmap">
+<div class="road done"><strong>Verified</strong>Native .nii / .nii.gz ingestion</div>
+<div class="road done"><strong>Verified</strong>Whole-volume sliding-window execution</div>
+<div class="road done"><strong>Verified</strong>Source-geometry restoration</div>
+<div class="road now"><strong>In progress</strong>Secure file upload + visual segmentation viewer</div>
+</div>
+</section>
+</main>
+<footer><div>ParsecScope research software • Development preview • Not for clinical diagnosis or treatment</div></footer>
+<script>
+const file=document.getElementById('file'), meta=document.getElementById('filemeta'), localStatus=document.getElementById('localStatus');
+file.addEventListener('change',()=>{const f=file.files[0];if(!f){meta.textContent='No file selected.';return}const ok=/\.nii(\.gz)?$/i.test(f.name);meta.textContent=f.name+' • '+(f.size/1024/1024).toFixed(2)+' MB'+(ok?' • format recognized':' • unsupported extension');localStatus.className='status '+(ok?'ok':'');localStatus.textContent=ok?'File recognized locally. It has not been uploaded.':'Please choose a .nii or .nii.gz research volume.'});
+async function loadStatus(showRaw=false){
+ const summary=document.getElementById('summary'), metrics=document.getElementById('metrics'), raw=document.getElementById('raw'), live=document.getElementById('live');
+ try{
+  const r=await fetch('status.json?ts='+Date.now(),{cache:'no-store'});const s=await r.json();
+  summary.textContent=s.summary;
+  metrics.innerHTML='';
+  const items=[['Native C++',s.native_cpp?'Verified':'—'],['Registered tests',s.registered_tests],['NIfTI',s.nifti],['Whole-volume',s.whole_volume],['R2 trained parity',s.r2_parity],['Updated',s.updated]];
+  for(const [k,v] of items){const d=document.createElement('div');d.className='metric';d.innerHTML='<span></span><b></b>';d.querySelector('span').textContent=k;d.querySelector('b').textContent=v;metrics.appendChild(d)}
+  if(s.live_url){live.href=s.live_url;live.textContent='Open live native demo';live.setAttribute('aria-disabled','false')}else{live.removeAttribute('href');live.textContent='Live native demo offline';live.setAttribute('aria-disabled','true')}
+  raw.hidden=!showRaw;raw.textContent=JSON.stringify(s,null,2);
+ }catch(e){summary.textContent='Status snapshot unavailable: '+e.message}
+}
+document.getElementById('snapshot').onclick=()=>loadStatus(true);loadStatus(false);
+</script>
+</body></html>

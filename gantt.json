@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-29 06:29 AEST",
+  "updated": "2026-09-29 08:23 AEST",
   "note": "Native C++ CPU build: 52/52 tests passed. Real-data training and complete held-out scan evaluation have executed. The 20-update experiment is running at this snapshot; useful masking quality and actual GPU execution remain unverified. Future bars are original planning estimates, not delivery commitments.",
   "days": [
     "Sep 28",
@@ -153,11 +153,11 @@
     {
       "name": "Cyst-present 20-update CPU experiment",
       "priority": 0,
-      "status": "Training/resume step passed; whole-scan evaluation in progress; final result pending",
+      "status": "Completed: 20 CPU updates, separate resume and three complete-scan evaluations; quality remains extremely poor",
       "critical": true,
       "start": 1,
       "end": 1,
-      "progress": 0
+      "progress": 100
     },
     {
       "name": "GPU tensor/memory abstraction",
@@ -239,6 +239,15 @@
       "start": 0,
       "end": 19,
       "progress": 20
+    },
+    {
+      "name": "Real-data balanced-sampling repeat",
+      "priority": 0,
+      "critical": true,
+      "start": 1,
+      "end": 1,
+      "progress": 0,
+      "status": "Corrected sampler passed synthetic tests; real 20-update CPU repeat running at snapshot"
     }
   ]
 }

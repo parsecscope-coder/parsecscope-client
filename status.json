@@ -1,7 +1,7 @@
 {
   "project": "ParsecScope",
   "surface": "end-client research preview",
-  "summary": "The native C++ CPU build passes all 52 tests. Small real-data research training, checkpoint resume, and complete held-out scan evaluation have executed successfully. The current 20-update CPU experiment has passed its training/resume step and is evaluating complete scans. CUDA compilation is verified; GPU execution and useful client masking quality remain unverified. A local image and reference-mask viewer is available now.",
+  "summary": "The native C++ CPU build passes all 52 tests. A 20-update experiment on real CT scans completed training, separate-process checkpoint resume and complete held-out scan evaluation. Mask overlap improved slightly but remains extremely poor. A corrected, balanced-sampling CPU repeat is running at this snapshot. CUDA compilation is verified; actual GPU execution is awaiting hardware access. Clients can inspect images and supplied reference masks locally now.",
   "native_cpp": true,
   "registered_tests": "52/52 passed on the latest native C++ build",
   "nifti": ".nii / .nii.gz verified",
@@ -11,8 +11,8 @@
   "upload_policy": "metadata/size/de-identification policy verified; public upload remains disabled",
   "r2_parity": "pending archived R2 checkpoint",
   "live_url": "",
-  "updated": "2026-09-29 06:29 AEST",
-  "training": "Native CPU research training operational; current 20-update experiment is evaluating complete scans at this snapshot",
+  "updated": "2026-09-29 08:23 AEST",
+  "training": "20-update real-data CPU experiment completed; balanced-sampling repeat in progress at snapshot",
   "training_probe": {
     "data": "real public KiTS23 subset",
     "training_cases": 2,
@@ -30,7 +30,7 @@
   "build": {
     "language": "C++",
     "status": "passed",
-    "verified_at": "2026-09-29 06:15 AEST",
+    "verified_at": "2026-09-29 08:14 AEST",
     "tests_passed": 52,
     "tests_total": 52,
     "cuda": "Compilation passed; GPU hardware execution unverified"
@@ -40,26 +40,29 @@
     "training_cases": 2,
     "validation_cases": 1,
     "device": "CPU",
-    "updates": 4,
+    "updates": 20,
     "model_base_width": 1,
     "patch": "16 × 16 × 16",
-    "wall_seconds": 176,
-    "completed": "2026-09-29 04:20 AEST",
+    "wall_seconds": 794,
+    "completed": "2026-09-29 AEST",
     "held_out_patch_dice_initial": 0.196103529,
-    "held_out_patch_dice_final": 0.1990085,
+    "held_out_patch_dice_final": 0.205487823,
     "held_out_whole_volume_dice_initial": 0.003542147,
-    "held_out_whole_volume_dice_final": 0.00357495,
-    "whole_volume_validation_seconds": 370.512,
+    "held_out_whole_volume_dice_final": 0.004174203,
+    "whole_volume_validation_seconds": 608.666,
     "checkpoint_resume": "completed successfully in a separate process",
-    "quality": "Research execution evidence only. Absolute whole-scan quality remains extremely poor and unsuitable for client masking."
+    "quality": "Complete-scan mean overlap improved slightly but remains extremely poor and unsuitable for client masking. Cyst overlap did not improve. Uneven class sampling was found; a corrected repeat is in progress.",
+    "held_out_patch_dice_best": 0.207168955,
+    "training_loss_first": 2.21106982,
+    "training_loss_latest": 2.31117511
   },
   "active_training": {
     "status": "in_progress",
-    "observed_at": "2026-09-29 06:29 AEST",
-    "description": "20-update native CPU experiment: training and resume step passed; complete held-out scan evaluation is running",
+    "observed_at": "2026-09-29 08:23 AEST",
+    "description": "20-update native CPU repeat with corrected, globally balanced class sampling",
     "planned_updates": 20,
     "completed_updates": null,
-    "stage": "Whole-scan evaluation; final metrics, artifact and experiment checks are pending"
+    "stage": "Experiment in progress; final metrics and evidence pending"
   },
   "previous_completed_learning_curve": {
     "data": "real KiTS23 subset",
@@ -85,9 +88,27 @@
     "start_date": null
   },
   "next_milestones": [
-    "Finish the current CPU experiment and review complete-scan masking quality.",
+    "Verify corrected class-balanced sampling on real CT scans and review complete-scan results before longer training.",
     "Verify execution and numerical agreement on an accessible NVIDIA GPU, then attempt a small real-data GPU run.",
     "Improve mask quality across kidney, tumor and cyst before offering AI results to clients.",
     "Connect secure upload, AI processing and results viewing for limited end-to-end client testing."
-  ]
+  ],
+  "previous_completed_cyst_probe": {
+    "data": "real public KiTS23 subset with kidney, tumor and cyst labels",
+    "training_cases": 2,
+    "validation_cases": 1,
+    "device": "CPU",
+    "updates": 4,
+    "model_base_width": 1,
+    "patch": "16 × 16 × 16",
+    "wall_seconds": 176,
+    "completed": "2026-09-29 04:20 AEST",
+    "held_out_patch_dice_initial": 0.196103529,
+    "held_out_patch_dice_final": 0.1990085,
+    "held_out_whole_volume_dice_initial": 0.003542147,
+    "held_out_whole_volume_dice_final": 0.00357495,
+    "whole_volume_validation_seconds": 370.512,
+    "checkpoint_resume": "completed successfully in a separate process",
+    "quality": "Research execution evidence only. Absolute whole-scan quality remains extremely poor and unsuitable for client masking."
+  }
 }

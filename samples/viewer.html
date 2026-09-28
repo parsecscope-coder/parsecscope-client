@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ParsecScope local NIfTI viewer</title>
+<style>
+body{font:16px/1.5 system-ui,sans-serif;max-width:980px;margin:auto;padding:24px;color:#173348;background:#f5f9fc}a{color:#086c8e}h1{line-height:1.15}label{display:block;margin:15px 0;font-weight:650}input[type=file]{display:block;margin-top:5px;max-width:100%}input[type=range]{width:min(100%,500px)}canvas{display:block;width:min(100%,768px);height:auto;image-rendering:pixelated;background:#10202b;border-radius:10px}#status{background:white;border:1px solid #d9e5ed;border-radius:10px;padding:12px;min-height:24px}small{color:#536c7c}
+</style></head><body><p><a href="./">← Test images</a></p><h1>Local NIfTI slice viewer</h1>
+<p>Select a research CT volume and, optionally, its matching reference mask. Files stay in your browser. This viewer shows stored axial slices; it does not run AI inference or apply a radiological orientation convention.</p>
+<label>CT image (.nii or .nii.gz)<input id="image" type="file" accept=".nii,.nii.gz"></label>
+<label>Reference mask, optional (.nii or .nii.gz)<input id="mask" type="file" accept=".nii,.nii.gz"></label>
+<label>Stored Z slice: <output id="sliceNumber">—</output><input id="slice" type="range" min="0" max="0" value="0" disabled></label>
+<p id="status" role="status">Choose an image to begin.</p><canvas id="view" width="1" height="1" aria-label="Stored axial slice with optional reference mask"></canvas>
+<p><small>Reference labels: 1 kidney (teal), 2 tumor (orange), 3 cyst (blue). They are supplied annotations, not model predictions. Research and software testing only.</small></p>
+<script src="viewer.js"></script></body></html>

@@ -15,6 +15,7 @@ main{max-width:1180px;margin:auto;padding:58px 24px 80px}.hero{display:grid;grid
 .section{margin-top:46px}.section h2{font-size:30px;letter-spacing:-.03em;margin-bottom:8px}.section>.sub{color:var(--muted);margin-top:0;line-height:1.55}.workspace{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px}.upload{display:block;border:1.5px dashed #9bb8c8;background:#f8fbfd;border-radius:16px;padding:28px;text-align:center;cursor:pointer}.upload input{display:block;margin:15px auto 0;max-width:100%}.filemeta{font-size:13px;color:var(--muted);margin-top:12px}.status{margin-top:15px;border-radius:12px;padding:13px;background:#fff9ed;border:1px solid #eadab3;color:#795821;font-size:13px;line-height:1.5}.status.ok{background:#f1faf5;border-color:#cce9d9;color:#285f43}
 .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}.btn{border:0;border-radius:11px;padding:12px 16px;font:inherit;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block;background:#e7f0f4;color:#294654}.btn.primary{background:var(--brand);color:white}.btn[aria-disabled="true"]{opacity:.5;pointer-events:none}.result{min-height:230px}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.metric{background:#f7fafc;border:1px solid #e2e8ed;border-radius:12px;padding:13px}.metric span{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#74828f}.metric b{display:block;font-size:17px;margin-top:4px}.console{margin-top:14px;background:#0b1720;color:#cbe4ef;border-radius:13px;padding:14px;font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-break:break-word}
 .roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}.road{background:#fff;border:1px solid var(--line);border-radius:13px;padding:15px;font-size:13px}.road strong{display:block;margin-bottom:6px}.done strong{color:var(--ok)}.now strong{color:var(--warn)}
+.gantt-wrap{margin-top:24px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}.gantt-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:14px}.gantt-meta{font-size:12px;color:var(--muted)}.gantt-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted)}.legend-dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px}.legend-critical{background:#c23a3a}.legend-normal{background:#0f6b91}.gantt{min-width:900px}.gantt-dates,.gantt-row{display:grid;grid-template-columns:245px repeat(20,1fr);align-items:center}.gantt-dates{border-bottom:1px solid var(--line);padding-bottom:7px;margin-bottom:5px}.gantt-dates div{font-size:10px;color:#7b8995;text-align:center}.gantt-dates .task-label{text-align:left}.gantt-row{min-height:38px;border-bottom:1px solid #eef2f5}.task-label{font-size:12px;padding-right:10px}.task-label strong{display:block;font-size:12px}.task-label span{color:var(--muted);font-size:10px}.gantt-cell{height:26px;position:relative}.gantt-bar{height:18px;border-radius:5px;background:#0f6b91;position:absolute;left:2px;right:2px;top:4px;overflow:hidden}.gantt-bar.critical{background:#c23a3a}.gantt-progress{height:100%;background:#ffffff4d}.gantt-bar-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:800;white-space:nowrap}.critical-badge{display:inline-block;margin-left:6px;border-radius:999px;background:#fde8e8;color:#9c2929;padding:2px 6px;font-size:9px;font-weight:800}
 footer{border-top:1px solid var(--line);background:white;color:#75838f;font-size:12px;padding:24px}footer div{max-width:1180px;margin:auto}
 @media(max-width:850px){.hero,.workspace{grid-template-columns:1fr}.grid3{grid-template-columns:1fr}.roadmap{grid-template-columns:1fr 1fr}h1{font-size:47px}}
 @media(max-width:520px){.metrics,.roadmap{grid-template-columns:1fr}}
@@ -61,12 +62,19 @@ footer{border-top:1px solid var(--line);background:white;color:#75838f;font-size
 
 <section id="progress" class="section">
 <h2>Current product progress</h2>
-<p class="sub">The stable client page is separated from temporary compute. A live native backend can be attached when a development runner is active without making the website itself disappear.</p>
+<p class="sub">Training and its prerequisites are now the primary engineering track. The Gantt chart below is published from the engineering plan and refreshed hourly from verified repository state.</p>
 <div class="roadmap">
 <div class="road done"><strong>Verified</strong>Native .nii / .nii.gz ingestion</div>
 <div class="road done"><strong>Verified</strong>Whole-volume sliding-window execution</div>
 <div class="road done"><strong>Verified</strong>Source-geometry restoration</div>
-<div class="road now"><strong>In progress</strong>Secure file upload + visual segmentation viewer</div>
+<div class="road now"><strong>Primary focus</strong>Native Generator3D training stack</div>
+</div>
+<div class="gantt-wrap">
+<div class="gantt-head">
+<div><strong>ParsecScope engineering Gantt</strong><div class="gantt-meta" id="ganttUpdated">Loading schedule…</div></div>
+<div class="gantt-legend"><span><i class="legend-dot legend-critical"></i>Critical path</span><span><i class="legend-dot legend-normal"></i>Parallel/supporting work</span></div>
+</div>
+<div class="gantt" id="gantt"></div>
 </div>
 </section>
 </main>
@@ -86,6 +94,41 @@ async function loadStatus(showRaw=false){
   raw.hidden=!showRaw;raw.textContent=JSON.stringify(s,null,2);
  }catch(e){summary.textContent='Status snapshot unavailable: '+e.message}
 }
-document.getElementById('snapshot').onclick=()=>loadStatus(true);loadStatus(false);
+async function loadGantt(){
+ const root=document.getElementById('gantt'),updated=document.getElementById('ganttUpdated');
+ try{
+  const r=await fetch('gantt.json?ts='+Date.now(),{cache:'no-store'});const g=await r.json();
+  updated.textContent='Updated '+g.updated+' • '+g.note;
+  root.innerHTML='';
+  const head=document.createElement('div');head.className='gantt-dates';
+  const label=document.createElement('div');label.className='task-label';label.textContent='Engineering task';head.appendChild(label);
+  for(const d of g.days){const c=document.createElement('div');c.textContent=d;head.appendChild(c)}root.appendChild(head);
+  for(const t of g.tasks){
+   const row=document.createElement('div');row.className='gantt-row';
+   const tl=document.createElement('div');tl.className='task-label';
+   const strong=document.createElement('strong');strong.textContent=t.name;
+   if(t.critical){const badge=document.createElement('span');badge.className='critical-badge';badge.textContent='CRITICAL';strong.appendChild(badge)}
+   const sub=document.createElement('span');sub.textContent=t.status+' • P'+t.priority;
+   tl.append(strong,sub);row.appendChild(tl);
+   for(let i=0;i<g.days.length;i++){
+    const cell=document.createElement('div');cell.className='gantt-cell';
+    if(i>=t.start&&i<=t.end){
+      const bar=document.createElement('div');bar.className='gantt-bar'+(t.critical?' critical':'');
+      const prog=document.createElement('div');prog.className='gantt-progress';
+      const width=Math.max(0,Math.min(100,t.progress||0));
+      if(i===t.start) prog.style.width=width+'%';
+      else if(i<t.start+(t.end-t.start+1)*width/100) prog.style.width='100%';
+      else prog.style.width='0%';
+      bar.appendChild(prog);
+      if(i===t.start){const bl=document.createElement('div');bl.className='gantt-bar-label';bl.textContent=t.progress+'%';bar.appendChild(bl)}
+      cell.appendChild(bar);
+    }
+    row.appendChild(cell);
+   }
+   root.appendChild(row);
+  }
+ }catch(e){root.textContent='Gantt schedule unavailable: '+e.message}
+}
+document.getElementById('snapshot').onclick=()=>loadStatus(true);loadStatus(false);loadGantt();
 </script>
 </body></html>

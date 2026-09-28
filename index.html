@@ -16,6 +16,7 @@ main{max-width:1180px;margin:auto;padding:58px 24px 80px}.hero{display:grid;grid
 .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}.btn{border:0;border-radius:11px;padding:12px 16px;font:inherit;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block;background:#e7f0f4;color:#294654}.btn.primary{background:var(--brand);color:white}.btn[aria-disabled="true"]{opacity:.5;pointer-events:none}.result{min-height:230px}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.metric{background:#f7fafc;border:1px solid #e2e8ed;border-radius:12px;padding:13px}.metric span{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#74828f}.metric b{display:block;font-size:17px;margin-top:4px}.console{margin-top:14px;background:#0b1720;color:#cbe4ef;border-radius:13px;padding:14px;font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-break:break-word}
 .roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}.road{background:#fff;border:1px solid var(--line);border-radius:13px;padding:15px;font-size:13px}.road strong{display:block;margin-bottom:6px}.done strong{color:var(--ok)}.now strong{color:var(--warn)}
 .gantt-wrap{margin-top:24px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}.gantt-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:14px}.gantt-meta{font-size:12px;color:var(--muted)}.gantt-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted)}.legend-dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px}.legend-critical{background:#c23a3a}.legend-normal{background:#0f6b91}.gantt{min-width:900px}.gantt-dates,.gantt-row{display:grid;grid-template-columns:245px repeat(20,1fr);align-items:center}.gantt-dates{border-bottom:1px solid var(--line);padding-bottom:7px;margin-bottom:5px}.gantt-dates div{font-size:10px;color:#7b8995;text-align:center}.gantt-dates .task-label{text-align:left}.gantt-row{min-height:38px;border-bottom:1px solid #eef2f5}.task-label{font-size:12px;padding-right:10px}.task-label strong{display:block;font-size:12px}.task-label span{color:var(--muted);font-size:10px}.gantt-cell{height:26px;position:relative}.gantt-bar{height:18px;border-radius:5px;background:#0f6b91;position:absolute;left:2px;right:2px;top:4px;overflow:hidden}.gantt-bar.critical{background:#c23a3a}.gantt-progress{height:100%;background:#ffffff4d}.gantt-bar-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:800;white-space:nowrap}.critical-badge{display:inline-block;margin-left:6px;border-radius:999px;background:#fde8e8;color:#9c2929;padding:2px 6px;font-size:9px;font-weight:800}
+.gantt-dates,.gantt-row{grid-template-columns:245px repeat(var(--gantt-days,20),minmax(42px,1fr))}.gantt-date.today{color:var(--brand);font-weight:800}.gantt-cell.today{background:#eaf5fa;box-shadow:inset 1px 0 #76afc7,inset -1px 0 #76afc7}.gantt-bar.completed,.legend-completed{background:var(--ok)}.gantt-date-note{margin:8px 0 0;max-width:700px;line-height:1.5}
 footer{border-top:1px solid var(--line);background:white;color:#75838f;font-size:12px;padding:24px}footer div{max-width:1180px;margin:auto}
 @media(max-width:850px){.hero,.workspace{grid-template-columns:1fr}.grid3{grid-template-columns:1fr}.roadmap{grid-template-columns:1fr 1fr}h1{font-size:47px}}
 @media(max-width:520px){.metrics,.roadmap{grid-template-columns:1fr}}
@@ -71,8 +72,8 @@ footer{border-top:1px solid var(--line);background:white;color:#75838f;font-size
 </div>
 <div class="gantt-wrap">
 <div class="gantt-head">
-<div><strong>ParsecScope engineering Gantt</strong><div class="gantt-meta" id="ganttUpdated">Loading schedule…</div></div>
-<div class="gantt-legend"><span><i class="legend-dot legend-critical"></i>Critical path</span><span><i class="legend-dot legend-normal"></i>Parallel/supporting work</span></div>
+<div><strong>ParsecScope engineering Gantt</strong><div class="gantt-meta" id="ganttUpdated">Loading schedule…</div><p class="gantt-meta gantt-date-note" id="ganttDateNote"></p></div>
+<div class="gantt-legend"><span><i class="legend-dot legend-completed"></i>Reported complete by snapshot</span><span><i class="legend-dot legend-critical"></i>Critical-path estimate</span><span><i class="legend-dot legend-normal"></i>Supporting estimate</span></div>
 </div>
 <div class="gantt" id="gantt"></div>
 </div>
@@ -94,26 +95,60 @@ async function loadStatus(showRaw=false){
   raw.hidden=!showRaw;raw.textContent=JSON.stringify(s,null,2);
  }catch(e){summary.textContent='Status snapshot unavailable: '+e.message}
 }
+function ganttDateLabel(iso,includeYear=false){
+ return new Intl.DateTimeFormat('en-AU',{day:'numeric',month:'short',...(includeYear?{year:'numeric'}:{}),timeZone:'UTC'}).format(new Date(iso+'T00:00:00Z'));
+}
+function ganttTimeline(g,now=new Date()){
+ // A completed task's legacy offsets describe the old plan, not its actual dates.
+ const match=String(g.updated).match(/^(\d{4}-\d{2}-\d{2})/);
+ if(!match)throw new Error('The status snapshot needs an explicit calendar date.');
+ const snapshot=match[1],months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+ let year=Number(snapshot.slice(0,4)),previousMonth=null;
+ const plannedDates=g.days.map(label=>{
+  const parts=String(label).match(/^([A-Za-z]{3})\s+(\d{1,2})$/);
+  if(!parts||!months.includes(parts[1]))throw new Error('Invalid planned date: '+label);
+  const month=months.indexOf(parts[1])+1;
+  if(previousMonth===null){
+   const delta=month-Number(snapshot.slice(5,7));
+   if(delta>6)year--;else if(delta< -6)year++;
+  }else if(month<previousMonth)year++;
+  previousMonth=month;
+  return year+'-'+String(month).padStart(2,'0')+'-'+parts[2].padStart(2,'0');
+ });
+ const todayParts=new Intl.DateTimeFormat('en-AU',{timeZone:'Australia/Brisbane',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now);
+ const part=type=>todayParts.find(p=>p.type===type).value;
+ const today=part('year')+'-'+part('month')+'-'+part('day');
+ const dates=[...new Set([...plannedDates,snapshot])].sort();
+ return {snapshot,today,dates,tasks:g.tasks.map(t=>{
+  const completed=Number(t.progress)>=100;
+  if(!plannedDates[t.start]||!plannedDates[t.end])throw new Error('Invalid planned range: '+t.name);
+  return {...t,completed,start:dates.indexOf(completed?snapshot:plannedDates[t.start]),end:dates.indexOf(completed?snapshot:plannedDates[t.end]),plannedStart:plannedDates[t.start],plannedEnd:plannedDates[t.end]};
+ })};
+}
 async function loadGantt(){
  const root=document.getElementById('gantt'),updated=document.getElementById('ganttUpdated');
  try{
   const r=await fetch('gantt.json?ts='+Date.now(),{cache:'no-store'});const g=await r.json();
-  updated.textContent='Updated '+g.updated+' • '+g.note;
+  const timeline=ganttTimeline(g);
+  updated.textContent='Status snapshot: '+g.updated+' • '+g.note;
+  document.getElementById('ganttDateNote').textContent='Today: '+ganttDateLabel(timeline.today,true)+' (Brisbane, AEST). Completed items are shown at the report date; exact completion dates were not recorded. Remaining bars are original planning estimates.';
   root.innerHTML='';
+  root.style.setProperty('--gantt-days',timeline.dates.length);
   const head=document.createElement('div');head.className='gantt-dates';
   const label=document.createElement('div');label.className='task-label';label.textContent='Engineering task';head.appendChild(label);
-  for(const d of g.days){const c=document.createElement('div');c.textContent=d;head.appendChild(c)}root.appendChild(head);
-  for(const t of g.tasks){
+  for(const d of timeline.dates){const c=document.createElement('div');c.className='gantt-date'+(d===timeline.today?' today':'');c.textContent=ganttDateLabel(d);c.title=ganttDateLabel(d,true)+(d===timeline.today?' — Today (Brisbane)':'');head.appendChild(c)}root.appendChild(head);
+  for(const t of timeline.tasks){
    const row=document.createElement('div');row.className='gantt-row';
    const tl=document.createElement('div');tl.className='task-label';
    const strong=document.createElement('strong');strong.textContent=t.name;
-   if(t.critical){const badge=document.createElement('span');badge.className='critical-badge';badge.textContent='CRITICAL';strong.appendChild(badge)}
-   const sub=document.createElement('span');sub.textContent=t.status+' • P'+t.priority;
+   if(t.critical&&!t.completed){const badge=document.createElement('span');badge.className='critical-badge';badge.textContent='CRITICAL';strong.appendChild(badge)}
+   const sub=document.createElement('span');sub.textContent=(t.completed?'Reported complete by '+ganttDateLabel(timeline.snapshot,true):t.status+' • estimated dates')+' • P'+t.priority;
    tl.append(strong,sub);row.appendChild(tl);
-   for(let i=0;i<g.days.length;i++){
-    const cell=document.createElement('div');cell.className='gantt-cell';
+   for(let i=0;i<timeline.dates.length;i++){
+    const cell=document.createElement('div');cell.className='gantt-cell'+(timeline.dates[i]===timeline.today?' today':'');
     if(i>=t.start&&i<=t.end){
-      const bar=document.createElement('div');bar.className='gantt-bar'+(t.critical?' critical':'');
+      const bar=document.createElement('div');bar.className='gantt-bar'+(t.completed?' completed':t.critical?' critical':'');
+      bar.title=t.completed?'Completion reported by '+ganttDateLabel(timeline.snapshot,true)+'; exact completion date not recorded. Original plan: '+ganttDateLabel(t.plannedStart,true)+' to '+ganttDateLabel(t.plannedEnd,true):'Original estimate: '+ganttDateLabel(t.plannedStart,true)+' to '+ganttDateLabel(t.plannedEnd,true);
       const prog=document.createElement('div');prog.className='gantt-progress';
       const width=Math.max(0,Math.min(100,t.progress||0));
       if(i===t.start) prog.style.width=width+'%';

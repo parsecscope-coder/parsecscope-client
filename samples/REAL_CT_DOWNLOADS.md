@@ -1,5 +1,7 @@
 # Official real CT files for research testing
 
+**The real CT images are NOT included in the synthetic ZIP. Download the image and mask files below separately.**
+
 Source: [KiTS23](https://github.com/neheller/kits23), Nicholas Heller and the KiTS23 contributors. Images are hosted in the Hugging Face repository linked by the official downloader.
 
 **Data terms:** CC BY-NC-SA 4.0. The maintainers require contact for commercial purposes; see the [source terms](https://github.com/neheller/kits23#license-and-attribution).

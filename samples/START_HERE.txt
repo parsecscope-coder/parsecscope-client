@@ -1,0 +1,12 @@
+THIS ZIP CONTAINS SYNTHETIC TEST IMAGES ONLY.
+
+The 97.2 MiB and 113.2 MiB real KiTS23 CT scans are separate downloads.
+Open REAL_CT_DOWNLOADS.md or index.html and use the real CT links.
+Download each scan AND its matching mask, keeping each pair in a case folder.
+
+Real CT download page:
+https://parsecscope-coder.github.io/parsecscope-client/samples/#real-ct
+
+The full real scans exceed the included browser viewer's 128 MiB expanded-file
+limit. Use a desktop NIfTI viewer or the native engine for those full scans.
+The three small synthetic examples work in viewer.html after unzipping.

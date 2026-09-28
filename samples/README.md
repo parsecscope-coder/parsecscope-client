@@ -1,7 +1,14 @@
-# ParsecScope client test images — v1.0.0
+# ParsecScope client test images — v1.0.1
 
-Prepared 28 September 2026. Start with the small synthetic examples, then use
-the official real CT download links in REAL_CT_DOWNLOADS.md.
+Updated 29 September 2026.
+
+**This ZIP contains synthetic images only. The 97.2 MiB and 113.2 MiB real KiTS23 CT files are NOT included.**
+
+For the real scans, use the separate image and mask links in
+[REAL_CT_DOWNLOADS.md](REAL_CT_DOWNLOADS.md) or open
+https://parsecscope-coder.github.io/parsecscope-client/samples/#real-ct.
+Keep each CT and its matching mask in a separate case folder. Full scans expand
+to approximately 522 MiB and 540 MiB and exceed the local browser viewer limit.
 
 ## What clients can test today
 
@@ -56,3 +63,4 @@ These original synthetic examples are provided for testing ParsecScope.
 Third-party real data retains its own source terms. KiTS23 data is CC BY-NC-SA
 4.0; the maintainers require contact for commercial purposes. Do not treat
 download availability as unrestricted commercial permission.
+

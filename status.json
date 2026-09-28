@@ -1,9 +1,9 @@
 {
   "project": "ParsecScope",
   "surface": "end-client research preview",
-  "summary": "Native training is the primary engineering track. The platform now has verified ConvTranspose3D and InstanceNorm3D backward operators, activation/skip backward plumbing, cross-entropy + soft-Dice gradients, a full Generator3D backward graph, native SGD, checkpoint save/resume, multi-step CPU training, and deterministic KiTS23 training-data batching. GPU execution is the next critical path.",
+  "summary": "Native CPU training v1 is now verified end-to-end: full Generator3D backward propagation, segmentation loss, SGD updates, checkpoint save/resume, KiTS-style image/mask batching, Dice validation, best-checkpoint retention, and a NIfTI training runner are operational. The next critical milestone is a verified GPU backend and CPU/GPU training parity.",
   "native_cpp": true,
-  "registered_tests": "45/45 passed on latest verified native-training build",
+  "registered_tests": "47/47 passed on latest verified native-training build",
   "nifti": ".nii / .nii.gz verified",
   "whole_volume": "sliding-window path verified",
   "source_geometry": "axis-aligned + oblique handling verified",
@@ -11,6 +11,6 @@
   "upload_policy": "metadata/size/de-identification policy verified; public upload remains disabled",
   "r2_parity": "pending archived R2 checkpoint",
   "live_url": "",
-  "updated": "2026-09-28 15:29 AEST",
-  "training": "Native multi-step CPU Generator3D training verified; GPU execution foundation next"
+  "updated": "2026-09-28 16:16 AEST",
+  "training": "Native Generator3D CPU training v1 verified; GPU backend next"
 }

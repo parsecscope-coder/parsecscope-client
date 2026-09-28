@@ -1,9 +1,9 @@
 {
   "project": "ParsecScope",
   "surface": "end-client research preview",
-  "summary": "Native medical-imaging pipeline is under active development. Core NIfTI ingestion, whole-volume execution, source-geometry restoration, oblique-volume handling, bounded HTTP request reading and upload-policy validation are verified. Secure upload-to-inference handoff and the visual result viewer are the current client-facing work.",
+  "summary": "Native training is now the primary engineering track. ConvTranspose3D backward is verified with finite-difference gradient coverage; InstanceNorm3D backward is the next critical-path task. Existing NIfTI ingestion, whole-volume execution, geometry handling, bounded HTTP request reading and upload-policy validation remain verified.",
   "native_cpp": true,
-  "registered_tests": "36/36 passed on latest verified end-client build",
+  "registered_tests": "37/37 passed on latest verified native-training build",
   "nifti": ".nii / .nii.gz verified",
   "whole_volume": "sliding-window path verified",
   "source_geometry": "axis-aligned + oblique handling verified",
@@ -11,5 +11,6 @@
   "upload_policy": "metadata/size/de-identification policy verified; public upload remains disabled",
   "r2_parity": "pending archived R2 checkpoint",
   "live_url": "",
-  "updated": "2026-09-28"
+  "updated": "2026-09-28 15:05 AEST",
+  "training": "ConvTranspose3D backward verified; InstanceNorm3D backward next"
 }

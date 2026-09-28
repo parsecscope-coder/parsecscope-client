@@ -1,6 +1,6 @@
 {
-  "updated": "2026-09-28 15:05 AEST",
-  "note": "Training is the primary engineering track; ConvTranspose3D backward is now verified and the critical path advances to InstanceNorm3D backward.",
+  "updated": "2026-09-28 15:29 AEST",
+  "note": "Native training foundation is verified through multi-step CPU training, checkpoint resume, KiTS23 image/label preparation, deterministic shuffling and batching. Critical path now advances toward GPU execution.",
   "days": [
     "Sep 28",
     "Sep 29",
@@ -36,88 +36,88 @@
     {
       "name": "InstanceNorm3D backward",
       "priority": 0,
-      "status": "next",
+      "status": "verified: finite-difference gradients + CI",
       "critical": true,
       "start": 0,
       "end": 1,
-      "progress": 0
+      "progress": 100
     },
     {
       "name": "Activation + concat backward",
       "priority": 0,
-      "status": "queued",
+      "status": "verified: backward regressions + CI",
       "critical": true,
       "start": 2,
       "end": 2,
-      "progress": 0
+      "progress": 100
     },
     {
       "name": "Segmentation loss + backward",
       "priority": 0,
-      "status": "queued",
+      "status": "verified: CE + soft-Dice gradient regression",
       "critical": true,
       "start": 2,
       "end": 3,
-      "progress": 0
+      "progress": 100
     },
     {
       "name": "Generator3D backward graph",
       "priority": 0,
-      "status": "queued",
+      "status": "verified: composed graph + selected finite differences",
       "critical": true,
       "start": 3,
       "end": 5,
-      "progress": 0
+      "progress": 100
     },
     {
       "name": "Native optimizer layer",
       "priority": 0,
-      "status": "queued",
+      "status": "verified: native SGD + end-to-end update",
       "critical": true,
       "start": 5,
       "end": 6,
-      "progress": 10
+      "progress": 100
     },
     {
       "name": "Checkpoint save/resume",
       "priority": 0,
-      "status": "loader exists; writer pending",
+      "status": "verified: deterministic PSCWGT save/load + resume",
       "critical": true,
       "start": 5,
       "end": 6,
-      "progress": 35
+      "progress": 100
     },
     {
       "name": "First end-to-end C++ training regression",
       "priority": 0,
-      "status": "queued",
+      "status": "verified: forward → loss → backward → SGD decreases loss",
       "critical": true,
       "start": 6,
       "end": 7,
-      "progress": 0
+      "progress": 100
     },
     {
       "name": "KiTS23 native training-data path",
       "priority": 0,
-      "status": "inference preprocessing reusable",
+      "status": "verified: synchronized image/label patches + batching",
       "critical": true,
       "start": 7,
       "end": 9,
-      "progress": 35
+      "progress": 100
     },
     {
       "name": "Full Generator3D CPU training run",
       "priority": 0,
-      "status": "queued",
+      "status": "multi-step synthetic CPU session + checkpoint resume verified; real KiTS dataset run pending",
       "critical": true,
       "start": 9,
       "end": 11,
-      "progress": 0
+      "progress": 70
     },
     {
       "name": "GPU tensor/memory abstraction",
       "priority": 1,
-      "status": "planned",
+      "status": "next critical task",
       "critical": true,
       "start": 10,
       "end": 12,

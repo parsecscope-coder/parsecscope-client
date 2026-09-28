@@ -17,6 +17,7 @@ main{max-width:1180px;margin:auto;padding:58px 24px 80px}.hero{display:grid;grid
 .roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}.road{background:#fff;border:1px solid var(--line);border-radius:13px;padding:15px;font-size:13px}.road strong{display:block;margin-bottom:6px}.done strong{color:var(--ok)}.now strong{color:var(--warn)}
 .gantt-wrap{margin-top:24px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}.gantt-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:14px}.gantt-meta{font-size:12px;color:var(--muted)}.gantt-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted)}.legend-dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px}.legend-critical{background:#c23a3a}.legend-normal{background:#0f6b91}.gantt{min-width:900px}.gantt-dates,.gantt-row{display:grid;grid-template-columns:245px repeat(20,1fr);align-items:center}.gantt-dates{border-bottom:1px solid var(--line);padding-bottom:7px;margin-bottom:5px}.gantt-dates div{font-size:10px;color:#7b8995;text-align:center}.gantt-dates .task-label{text-align:left}.gantt-row{min-height:38px;border-bottom:1px solid #eef2f5}.task-label{font-size:12px;padding-right:10px}.task-label strong{display:block;font-size:12px}.task-label span{color:var(--muted);font-size:10px}.gantt-cell{height:26px;position:relative}.gantt-bar{height:18px;border-radius:5px;background:#0f6b91;position:absolute;left:2px;right:2px;top:4px;overflow:hidden}.gantt-bar.critical{background:#c23a3a}.gantt-progress{height:100%;background:#ffffff4d}.gantt-bar-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:800;white-space:nowrap}.critical-badge{display:inline-block;margin-left:6px;border-radius:999px;background:#fde8e8;color:#9c2929;padding:2px 6px;font-size:9px;font-weight:800}
 .gantt-dates,.gantt-row{grid-template-columns:245px repeat(var(--gantt-days,20),minmax(42px,1fr))}.gantt-date.today{color:var(--brand);font-weight:800}.gantt-cell.today{background:#eaf5fa;box-shadow:inset 1px 0 #76afc7,inset -1px 0 #76afc7}.gantt-bar.completed,.legend-completed{background:var(--ok)}.gantt-date-note{margin:8px 0 0;max-width:700px;line-height:1.5}
+.training-log{margin-top:18px;border:1px solid var(--line);border-radius:14px;background:#f7fafc;padding:18px}.training-log h4{margin:0 0 8px;font-size:16px}.training-log p{margin:8px 0;line-height:1.5}.training-log .caution{color:#795821}
 footer{border-top:1px solid var(--line);background:white;color:#75838f;font-size:12px;padding:24px}footer div{max-width:1180px;margin:auto}
 @media(max-width:850px){.hero,.workspace{grid-template-columns:1fr}.grid3{grid-template-columns:1fr}.roadmap{grid-template-columns:1fr 1fr}h1{font-size:47px}}
 @media(max-width:520px){.metrics,.roadmap{grid-template-columns:1fr}}
@@ -57,6 +58,7 @@ footer{border-top:1px solid var(--line);background:white;color:#75838f;font-size
 <h3>Verified engineering snapshot</h3>
 <div id="summary">Loading current project status…</div>
 <div id="metrics" class="metrics"></div>
+<div id="trainingLog" class="training-log" aria-live="polite">Loading training run details…</div>
 <div id="raw" class="console" hidden></div>
 </article>
 </div>
@@ -85,16 +87,28 @@ footer{border-top:1px solid var(--line);background:white;color:#75838f;font-size
 const file=document.getElementById('file'), meta=document.getElementById('filemeta'), localStatus=document.getElementById('localStatus');
 file.addEventListener('change',()=>{const f=file.files[0];if(!f){meta.textContent='No file selected.';return}const ok=/\.nii(\.gz)?$/i.test(f.name);meta.textContent=f.name+' • '+(f.size/1024/1024).toFixed(2)+' MB'+(ok?' • format recognized':' • unsupported extension');localStatus.className='status '+(ok?'ok':'');localStatus.textContent=ok?'File recognized locally. It has not been uploaded.':'Please choose a .nii or .nii.gz research volume.'});
 async function loadStatus(showRaw=false){
- const summary=document.getElementById('summary'), metrics=document.getElementById('metrics'), raw=document.getElementById('raw'), live=document.getElementById('live');
+ const summary=document.getElementById('summary'), metrics=document.getElementById('metrics'), raw=document.getElementById('raw'), live=document.getElementById('live'), trainingLog=document.getElementById('trainingLog');
  try{
   const r=await fetch('status.json?ts='+Date.now(),{cache:'no-store'});const s=await r.json();
   summary.textContent=s.summary;
   metrics.innerHTML='';
   const items=[['Native C++',s.native_cpp?'Verified':'—'],['Registered tests',s.registered_tests],['NIfTI',s.nifti],['Whole-volume',s.whole_volume],['R2 trained parity',s.r2_parity],['Updated',s.updated]];
   for(const [k,v] of items){const d=document.createElement('div');d.className='metric';d.innerHTML='<span></span><b></b>';d.querySelector('span').textContent=k;d.querySelector('b').textContent=v;metrics.appendChild(d)}
+  trainingLog.replaceChildren();
+  const probe=s.training_probe;
+  if(probe){
+   const title=document.createElement('h4');title.textContent='First real-data training run';trainingLog.appendChild(title);
+   const lines=[
+    `Data: ${probe.training_cases} public training scans; ${probe.validation_cases} held-out scan.`,
+    `Engine: native C++ on ${probe.device}; ${probe.updates} weight updates in ${probe.wall_seconds} seconds using ${probe.patch} voxel patches.`,
+    `Held-out patch Dice: ${Number(probe.held_out_patch_dice_initial).toFixed(3)} before → ${Number(probe.held_out_patch_dice_final).toFixed(3)} after. ${probe.held_out_patch_dice_final>probe.held_out_patch_dice_initial?'Increased':'Did not improve'}.`,
+    `Checkpoint save and resume: ${probe.checkpoint_resume}.`];
+   for(const line of lines){const p=document.createElement('p');p.textContent=line;trainingLog.appendChild(p)}
+   const caveat=document.createElement('p');caveat.className='caution';caveat.textContent='This is a short execution check. Useful masking quality, whole-scan accuracy and GPU training have not been demonstrated.';trainingLog.appendChild(caveat);
+  }else trainingLog.textContent='No training run has been reported in this snapshot.';
   if(s.live_url){live.href=s.live_url;live.textContent='Open live native demo';live.setAttribute('aria-disabled','false')}else{live.removeAttribute('href');live.textContent='Live native demo offline';live.setAttribute('aria-disabled','true')}
   raw.hidden=!showRaw;raw.textContent=JSON.stringify(s,null,2);
- }catch(e){summary.textContent='Status snapshot unavailable: '+e.message}
+ }catch(e){summary.textContent='Status snapshot unavailable: '+e.message;trainingLog.textContent='Training run details unavailable.'}
 }
 function ganttDateLabel(iso,includeYear=false){
  return new Intl.DateTimeFormat('en-AU',{day:'numeric',month:'short',...(includeYear?{year:'numeric'}:{}),timeZone:'UTC'}).format(new Date(iso+'T00:00:00Z'));

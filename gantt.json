@@ -1,6 +1,6 @@
 {
-  "updated": "2026-09-28 16:16 AEST",
-  "note": "P0 native CPU training chain is verified end-to-end. The critical path now advances to GPU execution and CPU/GPU training parity.",
+  "updated": "2026-09-28 20:38 AEST",
+  "note": "Native Adam sessions and the first small real-data CPU probe are verified. Model quality and actual GPU execution remain unverified. Future bars retain original planning estimates and are not confirmed delivery dates.",
   "days": [
     "Sep 28",
     "Sep 29",
@@ -70,7 +70,7 @@
       "progress": 100
     },
     {
-      "name": "Native optimizer layer",
+      "name": "Native Adam optimizer",
       "priority": 0,
       "status": "verified",
       "critical": true,
@@ -106,7 +106,7 @@
       "progress": 100
     },
     {
-      "name": "Full Generator3D CPU training run",
+      "name": "Native CPU training workflow (small model)",
       "priority": 0,
       "status": "verified",
       "critical": true,
@@ -115,9 +115,18 @@
       "progress": 100
     },
     {
+      "name": "First small real-data C++ CPU run",
+      "priority": 0,
+      "status": "verified",
+      "critical": true,
+      "start": 0,
+      "end": 0,
+      "progress": 100
+    },
+    {
       "name": "GPU tensor/memory abstraction",
       "priority": 1,
-      "status": "next",
+      "status": "CUDA compiled; hardware checks pending",
       "critical": true,
       "start": 0,
       "end": 2,
@@ -126,7 +135,7 @@
     {
       "name": "GPU Conv3D + ConvTranspose3D training kernels",
       "priority": 1,
-      "status": "planned",
+      "status": "CUDA compiled; hardware parity pending",
       "critical": true,
       "start": 12,
       "end": 16,
@@ -147,6 +156,15 @@
       "status": "planned",
       "critical": true,
       "start": 18,
+      "end": 19,
+      "progress": 0
+    },
+    {
+      "name": "Useful masking quality + whole-scan validation",
+      "priority": 1,
+      "status": "not yet demonstrated",
+      "critical": true,
+      "start": 1,
       "end": 19,
       "progress": 0
     },

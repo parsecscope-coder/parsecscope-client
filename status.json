@@ -1,16 +1,30 @@
 {
   "project": "ParsecScope",
   "surface": "end-client research preview",
-  "summary": "Native CPU training v1 is now verified end-to-end: full Generator3D backward propagation, segmentation loss, SGD updates, checkpoint save/resume, KiTS-style image/mask batching, Dice validation, best-checkpoint retention, and a NIfTI training runner are operational. The next critical milestone is a verified GPU backend and CPU/GPU training parity.",
+  "summary": "The first small real-data run on the native C++ engine succeeded on 28 September: four CPU updates using two public research scans and one held-out scan, with checkpoint save/resume. The latest native build passes 51 tests. Held-out patch Dice did not improve, so useful masking quality is not yet demonstrated. GPU hardware verification and broader training are next.",
   "native_cpp": true,
-  "registered_tests": "47/47 passed on latest verified native-training build",
+  "registered_tests": "51/51 passed on the current native integration build",
   "nifti": ".nii / .nii.gz verified",
-  "whole_volume": "sliding-window path verified",
+  "whole_volume": "sliding-window software tests passed; trained whole-scan quality unverified",
   "source_geometry": "axis-aligned + oblique handling verified",
   "request_boundary": "bounded fragmented HTTP body reader verified",
   "upload_policy": "metadata/size/de-identification policy verified; public upload remains disabled",
   "r2_parity": "pending archived R2 checkpoint",
   "live_url": "",
-  "updated": "2026-09-28 16:16 AEST",
-  "training": "Native Generator3D CPU training v1 verified; GPU backend next"
+  "updated": "2026-09-28 20:38 AEST",
+  "training": "First real-data CPU probe completed; four updates; GPU execution pending",
+  "training_probe": {
+    "data": "real public KiTS23 subset",
+    "training_cases": 2,
+    "validation_cases": 1,
+    "device": "CPU",
+    "updates": 4,
+    "model_base_width": 1,
+    "patch": "16 × 16 × 16",
+    "wall_seconds": 133,
+    "held_out_patch_dice_initial": 0.1063111607,
+    "held_out_patch_dice_final": 0.1016416237,
+    "checkpoint_resume": "verified in the real-data probe",
+    "quality": "Execution evidence only; no useful or clinical masking accuracy demonstrated"
+  }
 }

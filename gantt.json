@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-29 08:23 AEST",
+  "updated": "2026-09-29 09:06 AEST",
   "note": "Native C++ CPU build: 52/52 tests passed. Real-data training and complete held-out scan evaluation have executed. The 20-update experiment is running at this snapshot; useful masking quality and actual GPU execution remain unverified. Future bars are original planning estimates, not delivery commitments.",
   "days": [
     "Sep 28",
@@ -162,7 +162,7 @@
     {
       "name": "GPU tensor/memory abstraction",
       "priority": 1,
-      "status": "CUDA compiled; hardware checks pending",
+      "status": "GPU execution unverified; free Kaggle/Colab runtime access and hardware tests pending",
       "critical": true,
       "start": 0,
       "end": 2,
@@ -171,7 +171,7 @@
     {
       "name": "GPU Conv3D + ConvTranspose3D training kernels",
       "priority": 1,
-      "status": "CUDA compiled; hardware parity pending",
+      "status": "GPU execution unverified; free Kaggle/Colab runtime access and hardware tests pending",
       "critical": true,
       "start": 12,
       "end": 16,
@@ -180,7 +180,7 @@
     {
       "name": "CPU/GPU training parity",
       "priority": 1,
-      "status": "blocked: accessible GPU runtime needed",
+      "status": "GPU execution unverified; free Kaggle/Colab runtime access and hardware tests pending",
       "critical": true,
       "start": 16,
       "end": 18,
@@ -189,7 +189,7 @@
     {
       "name": "Practical GPU training run",
       "priority": 1,
-      "status": "pending hardware parity and GPU access",
+      "status": "GPU execution unverified; free Kaggle/Colab runtime access and hardware tests pending",
       "critical": true,
       "start": 18,
       "end": 19,
@@ -246,8 +246,26 @@
       "critical": true,
       "start": 1,
       "end": 1,
+      "progress": 100,
+      "status": "Verified on real data: 20 updates, intended class balance, separate resume and complete-scan evaluation"
+    },
+    {
+      "name": "Free GPU launch notebook",
+      "priority": 1,
+      "critical": false,
+      "start": 1,
+      "end": 1,
+      "progress": 100,
+      "status": "Prepared and locally checked; actual GPU execution pending"
+    },
+    {
+      "name": "Rare-class learning diagnostics",
+      "priority": 0,
+      "critical": true,
+      "start": 1,
+      "end": 1,
       "progress": 0,
-      "status": "Corrected sampler passed synthetic tests; real 20-update CPU repeat running at snapshot"
+      "status": "Next: measure per-class objective and gradient contributions before longer training"
     }
   ]
 }

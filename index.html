@@ -45,6 +45,7 @@ footer{border-top:1px solid var(--line);background:white;color:#75838f;font-size
 <p id="progressUpdated" class="snapshot-date" role="status">Loading the latest verified progress snapshot…</p>
 <div id="progressCards" class="progress-cards"></div>
 <div id="currentExperiment" class="status">Loading the current research update…</div>
+<div id="gpuProgress" class="status">Loading GPU preparation status…</div>
 <div class="workspace">
 <div><h3>Try the client preview</h3><p class="sub">Download test images and inspect CT slices with an optional matching reference mask in your browser. Reference masks are supplied annotations; this preview does not generate AI predictions. Files stay on your device.</p><p class="snapshot-date">The local viewer supports 3D NIfTI-1 files up to 128 MiB, including the expanded size of compressed files. Full scans may require a desktop viewer.</p><div class="btns"><a class="btn primary" href="samples/viewer.html">Open local image viewer</a><a class="btn" href="samples/">Get test images</a></div></div>
 <div><h3>Next milestones</h3><ol id="nextMilestones" class="next-steps"><li>Loading verified next steps…</li></ol><p class="snapshot-date">A date for end-to-end AI masking tests will follow model-quality and GPU validation. No release date is committed yet.</p></div>
@@ -118,6 +119,7 @@ function renderPublicProgress(s){
  ];
  for(const [label,title,body,pending] of rows){const card=document.createElement('article');card.className='progress-card';const badge=document.createElement('span');badge.className='badge'+(pending?' pending':'');badge.textContent=label;const h=document.createElement('h3');h.textContent=title;const p=document.createElement('p');p.textContent=body;card.append(badge,h,p);cards.appendChild(card)}
  const active=s.active_training;
+ document.getElementById('gpuProgress').textContent='GPU training — '+(s.gpu_training?.public_summary||'CUDA compilation is verified; actual GPU execution is awaiting hardware validation.');
  experiment.textContent=active?.status==='in_progress'?`Research update — running when checked at ${active.observed_at}: ${active.description}. Final results are pending.`:'Research update — '+(active?.description||'No active training run is reported in this snapshot.');
  next.replaceChildren();
  for(const line of s.next_milestones||['Verify GPU execution on an accessible NVIDIA runtime.','Improve complete-scan masking quality.','Enable a secure upload-to-results workflow for limited client testing.']){const item=document.createElement('li');item.textContent=line;next.appendChild(item)}
@@ -149,7 +151,7 @@ async function loadStatus(showRaw=false){
   }else trainingLog.textContent='No training run has been reported in this snapshot.';
   if(s.live_url){live.href=s.live_url;live.textContent='Open live native demo';live.setAttribute('aria-disabled','false')}else{live.removeAttribute('href');live.textContent='Live native demo offline';live.setAttribute('aria-disabled','true')}
   raw.hidden=!showRaw;raw.textContent=JSON.stringify(s,null,2);
- }catch(e){summary.textContent='Status snapshot unavailable: '+e.message;trainingLog.textContent='Training run details unavailable.';document.getElementById('progressUpdated').textContent='The progress snapshot could not be loaded. Please refresh to try again.';document.getElementById('progressCards').replaceChildren();document.getElementById('currentExperiment').textContent='Current training status is unavailable.';document.getElementById('nextMilestones').textContent='Milestone details are unavailable.'}
+ }catch(e){summary.textContent='Status snapshot unavailable: '+e.message;trainingLog.textContent='Training run details unavailable.';document.getElementById('progressUpdated').textContent='The progress snapshot could not be loaded. Please refresh to try again.';document.getElementById('progressCards').replaceChildren();document.getElementById('currentExperiment').textContent='Current training status is unavailable.';document.getElementById('gpuProgress').textContent='GPU status is unavailable.';document.getElementById('nextMilestones').textContent='Milestone details are unavailable.'}
 }
 function ganttDateLabel(iso,includeYear=false){
  return new Intl.DateTimeFormat('en-AU',{day:'numeric',month:'short',...(includeYear?{year:'numeric'}:{}),timeZone:'UTC'}).format(new Date(iso+'T00:00:00Z'));

@@ -1,7 +1,7 @@
 {
   "project": "ParsecScope",
   "surface": "end-client research preview",
-  "summary": "The native C++ CPU build passes all 52 tests. A 20-update experiment on real CT scans completed training, separate-process checkpoint resume and complete held-out scan evaluation. Mask overlap improved slightly but remains extremely poor. A corrected, balanced-sampling CPU repeat is running at this snapshot. CUDA compilation is verified; actual GPU execution is awaiting hardware access. Clients can inspect images and supplied reference masks locally now.",
+  "summary": "The native C++ CPU engine has passed all 52 tests. The corrected, class-balanced 20-update real-data run completed with separate checkpoint resume and complete held-out scan evaluation. Complete-scan Dice improved slightly to 0.004240, but mask quality remains extremely poor. A free Kaggle/Colab GPU launch notebook is prepared; runtime access and actual GPU execution are still pending. Clients can inspect CT slices and supplied reference masks locally.",
   "native_cpp": true,
   "registered_tests": "52/52 passed on the latest native C++ build",
   "nifti": ".nii / .nii.gz verified",
@@ -11,8 +11,8 @@
   "upload_policy": "metadata/size/de-identification policy verified; public upload remains disabled",
   "r2_parity": "pending archived R2 checkpoint",
   "live_url": "",
-  "updated": "2026-09-29 08:23 AEST",
-  "training": "20-update real-data CPU experiment completed; balanced-sampling repeat in progress at snapshot",
+  "updated": "2026-09-29 09:06 AEST",
+  "training": "Balanced 20-update CPU run completed; rare-class learning diagnostics are the next model-quality task",
   "training_probe": {
     "data": "real public KiTS23 subset",
     "training_cases": 2,
@@ -43,26 +43,32 @@
     "updates": 20,
     "model_base_width": 1,
     "patch": "16 × 16 × 16",
-    "wall_seconds": 794,
+    "wall_seconds": 695,
     "completed": "2026-09-29 AEST",
     "held_out_patch_dice_initial": 0.196103529,
-    "held_out_patch_dice_final": 0.205487823,
+    "held_out_patch_dice_final": 0.209029151,
     "held_out_whole_volume_dice_initial": 0.003542147,
-    "held_out_whole_volume_dice_final": 0.004174203,
-    "whole_volume_validation_seconds": 608.666,
+    "held_out_whole_volume_dice_final": 0.004239616,
+    "whole_volume_validation_seconds": 538.147,
     "checkpoint_resume": "completed successfully in a separate process",
-    "quality": "Complete-scan mean overlap improved slightly but remains extremely poor and unsuitable for client masking. Cyst overlap did not improve. Uneven class sampling was found; a corrected repeat is in progress.",
-    "held_out_patch_dice_best": 0.207168955,
-    "training_loss_first": 2.21106982,
-    "training_loss_latest": 2.31117511
+    "quality": "The class-sampling defect is corrected and verified on real scans. Complete-scan mean overlap improved slightly, mainly through kidney; tumor remains near zero and cyst overlap ended below initialization. Quality remains extremely poor and unsuitable for client masking.",
+    "held_out_patch_dice_best": 0.209856555,
+    "training_loss_first": 2.2201817,
+    "training_loss_latest": 2.31105375,
+    "target_class_counts": {
+      "kidney": 5,
+      "tumor": 6,
+      "cyst": 6,
+      "spatial": 3
+    }
   },
   "active_training": {
-    "status": "in_progress",
-    "observed_at": "2026-09-29 08:23 AEST",
-    "description": "20-update native CPU repeat with corrected, globally balanced class sampling",
+    "status": "completed",
+    "observed_at": "2026-09-29 09:06 AEST",
+    "description": "The balanced 20-update CPU experiment completed successfully. The next model-quality task is to investigate why tumor and cyst learning remain weak. GPU training has not started.",
     "planned_updates": 20,
-    "completed_updates": null,
-    "stage": "Experiment in progress; final metrics and evidence pending"
+    "completed_updates": 20,
+    "stage": "Completed and reviewed; longer training awaits model-quality diagnostics and GPU hardware validation"
   },
   "previous_completed_learning_curve": {
     "data": "real KiTS23 subset",
@@ -81,16 +87,24 @@
     "max_expanded_bytes": 134217728
   },
   "gpu_training": {
-    "status": "awaiting_hardware_validation",
+    "status": "awaiting_notebook_access",
     "cuda_compilation": "passed",
     "hardware_execution": "unverified",
     "requirement": "Access to an authorized NVIDIA GPU runtime, followed by GPU execution and CPU/GPU numerical comparison tests.",
-    "start_date": null
+    "start_date": null,
+    "preferred_hosts": [
+      "Kaggle free GPU",
+      "Google Colab free GPU"
+    ],
+    "launch_package": "Prepared and checked locally; not executed on a GPU",
+    "backend": "CUDA convolutions; CPU normalization, loss and Adam",
+    "public_summary": "Free Kaggle/Colab launch notebook prepared. Connecting an authorized NVIDIA runtime and passing the hardware comparison tests are still required. No GPU training run has started.",
+    "planned_probe_updates": 4
   },
   "next_milestones": [
-    "Verify corrected class-balanced sampling on real CT scans and review complete-scan results before longer training.",
-    "Verify execution and numerical agreement on an accessible NVIDIA GPU, then attempt a small real-data GPU run.",
-    "Improve mask quality across kidney, tumor and cyst before offering AI results to clients.",
+    "Diagnose weak tumor and cyst learning with per-class objective and gradient checks.",
+    "Connect a free Kaggle or Colab NVIDIA GPU runtime; pass hardware tests and attempt a four-update real-data execution probe.",
+    "Improve complete-scan mask quality before offering AI results to clients.",
     "Connect secure upload, AI processing and results viewing for limited end-to-end client testing."
   ],
   "previous_completed_cyst_probe": {
@@ -110,5 +124,26 @@
     "whole_volume_validation_seconds": 370.512,
     "checkpoint_resume": "completed successfully in a separate process",
     "quality": "Research execution evidence only. Absolute whole-scan quality remains extremely poor and unsuitable for client masking."
+  },
+  "previous_completed_unbalanced_training": {
+    "data": "real public KiTS23 subset with kidney, tumor and cyst labels",
+    "training_cases": 2,
+    "validation_cases": 1,
+    "device": "CPU",
+    "updates": 20,
+    "model_base_width": 1,
+    "patch": "16 × 16 × 16",
+    "wall_seconds": 794,
+    "completed": "2026-09-29 AEST",
+    "held_out_patch_dice_initial": 0.196103529,
+    "held_out_patch_dice_final": 0.205487823,
+    "held_out_whole_volume_dice_initial": 0.003542147,
+    "held_out_whole_volume_dice_final": 0.004174203,
+    "whole_volume_validation_seconds": 608.666,
+    "checkpoint_resume": "completed successfully in a separate process",
+    "quality": "Complete-scan mean overlap improved slightly but remains extremely poor and unsuitable for client masking. Cyst overlap did not improve. Uneven class sampling was found; a corrected repeat is in progress.",
+    "held_out_patch_dice_best": 0.207168955,
+    "training_loss_first": 2.21106982,
+    "training_loss_latest": 2.31117511
   }
 }

@@ -1,0 +1,25 @@
+{
+  "updated": "2026-09-28 14:40 AEST",
+  "note": "Training is the primary engineering track; only verified progress is published.",
+  "days": ["Sep 28","Sep 29","Sep 30","Oct 1","Oct 2","Oct 3","Oct 4","Oct 5","Oct 6","Oct 7","Oct 8","Oct 9","Oct 10","Oct 11","Oct 12","Oct 13","Oct 14","Oct 15","Oct 16","Oct 17"],
+  "tasks": [
+    {"name":"ConvTranspose3D backward","priority":0,"status":"next","critical":true,"start":0,"end":1,"progress":0},
+    {"name":"InstanceNorm3D backward","priority":0,"status":"queued","critical":true,"start":1,"end":2,"progress":0},
+    {"name":"Activation + concat backward","priority":0,"status":"queued","critical":true,"start":2,"end":2,"progress":0},
+    {"name":"Segmentation loss + backward","priority":0,"status":"queued","critical":true,"start":2,"end":3,"progress":0},
+    {"name":"Generator3D backward graph","priority":0,"status":"queued","critical":true,"start":3,"end":5,"progress":0},
+    {"name":"Native optimizer layer","priority":0,"status":"queued","critical":true,"start":5,"end":6,"progress":10},
+    {"name":"Checkpoint save/resume","priority":0,"status":"loader exists; writer pending","critical":true,"start":5,"end":6,"progress":35},
+    {"name":"First end-to-end C++ training regression","priority":0,"status":"queued","critical":true,"start":6,"end":7,"progress":0},
+    {"name":"KiTS23 native training-data path","priority":0,"status":"inference preprocessing reusable","critical":true,"start":7,"end":9,"progress":35},
+    {"name":"Full Generator3D CPU training run","priority":0,"status":"queued","critical":true,"start":9,"end":11,"progress":0},
+    {"name":"GPU tensor/memory abstraction","priority":1,"status":"planned","critical":true,"start":10,"end":12,"progress":0},
+    {"name":"GPU Conv3D + ConvTranspose3D training kernels","priority":1,"status":"planned","critical":true,"start":12,"end":16,"progress":0},
+    {"name":"CPU/GPU training parity","priority":1,"status":"planned","critical":true,"start":16,"end":18,"progress":0},
+    {"name":"Practical GPU training run","priority":1,"status":"planned","critical":true,"start":18,"end":19,"progress":0},
+    {"name":"Secure upload-to-inference handoff","priority":2,"status":"bounded request reader verified","critical":false,"start":0,"end":4,"progress":45},
+    {"name":"Visual segmentation viewer","priority":2,"status":"planned","critical":false,"start":4,"end":8,"progress":10},
+    {"name":"Self-managed reverse tunnel/relay","priority":3,"status":"design track","critical":false,"start":8,"end":14,"progress":5},
+    {"name":"R2 checkpoint recovery + trained parity","priority":1,"status":"blocked: checkpoint missing","critical":false,"start":0,"end":19,"progress":20}
+  ]
+}

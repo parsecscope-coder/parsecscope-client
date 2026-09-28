@@ -1,9 +1,9 @@
 {
   "project": "ParsecScope",
   "surface": "end-client research preview",
-  "summary": "Native training is now the primary engineering track. ConvTranspose3D backward is verified with finite-difference gradient coverage; InstanceNorm3D backward is the next critical-path task. Existing NIfTI ingestion, whole-volume execution, geometry handling, bounded HTTP request reading and upload-policy validation remain verified.",
+  "summary": "Native training is the primary engineering track. The platform now has verified ConvTranspose3D and InstanceNorm3D backward operators, activation/skip backward plumbing, cross-entropy + soft-Dice gradients, a full Generator3D backward graph, native SGD, checkpoint save/resume, multi-step CPU training, and deterministic KiTS23 training-data batching. GPU execution is the next critical path.",
   "native_cpp": true,
-  "registered_tests": "37/37 passed on latest verified native-training build",
+  "registered_tests": "45/45 passed on latest verified native-training build",
   "nifti": ".nii / .nii.gz verified",
   "whole_volume": "sliding-window path verified",
   "source_geometry": "axis-aligned + oblique handling verified",
@@ -11,6 +11,6 @@
   "upload_policy": "metadata/size/de-identification policy verified; public upload remains disabled",
   "r2_parity": "pending archived R2 checkpoint",
   "live_url": "",
-  "updated": "2026-09-28 15:05 AEST",
-  "training": "ConvTranspose3D backward verified; InstanceNorm3D backward next"
+  "updated": "2026-09-28 15:29 AEST",
+  "training": "Native multi-step CPU Generator3D training verified; GPU execution foundation next"
 }

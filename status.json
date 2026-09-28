@@ -1,12 +1,14 @@
 {
   "project": "ParsecScope",
   "surface": "end-client research preview",
-  "summary": "Native medical-imaging pipeline is under active development. Core NIfTI ingestion, whole-volume execution and source-geometry restoration are verified; secure public upload and visual result viewing are the current client-facing work.",
+  "summary": "Native medical-imaging pipeline is under active development. Core NIfTI ingestion, whole-volume execution, source-geometry restoration, oblique-volume handling, bounded HTTP request reading and upload-policy validation are verified. Secure upload-to-inference handoff and the visual result viewer are the current client-facing work.",
   "native_cpp": true,
-  "registered_tests": "33/33 passed on latest verified end-client build",
+  "registered_tests": "36/36 passed on latest verified end-client build",
   "nifti": ".nii / .nii.gz verified",
   "whole_volume": "sliding-window path verified",
-  "source_geometry": "restore path verified",
+  "source_geometry": "axis-aligned + oblique handling verified",
+  "request_boundary": "bounded fragmented HTTP body reader verified",
+  "upload_policy": "metadata/size/de-identification policy verified; public upload remains disabled",
   "r2_parity": "pending archived R2 checkpoint",
   "live_url": "",
   "updated": "2026-09-28"

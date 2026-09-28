@@ -18,6 +18,9 @@ main{max-width:1180px;margin:auto;padding:58px 24px 80px}.hero{display:grid;grid
 .gantt-wrap{margin-top:24px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}.gantt-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:14px}.gantt-meta{font-size:12px;color:var(--muted)}.gantt-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted)}.legend-dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px}.legend-critical{background:#c23a3a}.legend-normal{background:#0f6b91}.gantt{min-width:900px}.gantt-dates,.gantt-row{display:grid;grid-template-columns:245px repeat(20,1fr);align-items:center}.gantt-dates{border-bottom:1px solid var(--line);padding-bottom:7px;margin-bottom:5px}.gantt-dates div{font-size:10px;color:#7b8995;text-align:center}.gantt-dates .task-label{text-align:left}.gantt-row{min-height:38px;border-bottom:1px solid #eef2f5}.task-label{font-size:12px;padding-right:10px}.task-label strong{display:block;font-size:12px}.task-label span{color:var(--muted);font-size:10px}.gantt-cell{height:26px;position:relative}.gantt-bar{height:18px;border-radius:5px;background:#0f6b91;position:absolute;left:2px;right:2px;top:4px;overflow:hidden}.gantt-bar.critical{background:#c23a3a}.gantt-progress{height:100%;background:#ffffff4d}.gantt-bar-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:800;white-space:nowrap}.critical-badge{display:inline-block;margin-left:6px;border-radius:999px;background:#fde8e8;color:#9c2929;padding:2px 6px;font-size:9px;font-weight:800}
 .gantt-dates,.gantt-row{grid-template-columns:245px repeat(var(--gantt-days,20),minmax(42px,1fr))}.gantt-date.today{color:var(--brand);font-weight:800}.gantt-cell.today{background:#eaf5fa;box-shadow:inset 1px 0 #76afc7,inset -1px 0 #76afc7}.gantt-bar.completed,.legend-completed{background:var(--ok)}.gantt-date-note{margin:8px 0 0;max-width:700px;line-height:1.5}
 .training-log{margin-top:18px;border:1px solid var(--line);border-radius:14px;background:#f7fafc;padding:18px}.training-log h4{margin:0 0 8px;font-size:16px}.training-log p{margin:8px 0;line-height:1.5}.training-log .caution{color:#795821}
+.section[id]{scroll-margin-top:95px}.progress-overview{background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px}.progress-overview h2{margin-top:8px}.snapshot-date{font-size:13px;color:var(--muted);line-height:1.5}.progress-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:22px 0}.progress-card{border:1px solid var(--line);border-radius:14px;padding:18px;background:#f7fafc}.progress-card h3{font-size:17px;margin:12px 0 8px}.progress-card p{font-size:14px;line-height:1.55;color:#526779;margin:0}.badge{display:inline-block;border-radius:99px;padding:4px 9px;font-size:11px;font-weight:800;background:#e5f3eb;color:#206343}.badge.pending{background:#fff1d7;color:#805611}.next-steps{padding-left:22px;line-height:1.65;color:#526779}.next-steps li{padding:3px 0}.progress-links{margin-top:18px}.progress-links a{color:var(--brand)}.engineering-detail>summary{font-size:17px;font-weight:750;color:var(--brand);cursor:pointer;padding:8px 0}.engineering-detail[open]>summary{margin-bottom:8px}
+@media(max-width:1000px){.progress-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.progress-cards{grid-template-columns:1fr}.progress-overview{padding:18px}}
 footer{border-top:1px solid var(--line);background:white;color:#75838f;font-size:12px;padding:24px}footer div{max-width:1180px;margin:auto}
 @media(max-width:850px){.hero,.workspace{grid-template-columns:1fr}.grid3{grid-template-columns:1fr}.roadmap{grid-template-columns:1fr 1fr}h1{font-size:47px}}
 @media(max-width:520px){.metrics,.roadmap{grid-template-columns:1fr}}
@@ -29,11 +32,24 @@ footer{border-top:1px solid var(--line);background:white;color:#75838f;font-size
 <section class="hero">
 <div>
 <div class="eyebrow">3D medical-imaging research platform</div>
-<h1>From CT volume to structured AI research output.</h1>
+<h1>Building clearer views of medical images.</h1>
 <p class="lead">ParsecScope is building a native C++ medical-imaging engine for volumetric CT analysis, with an emphasis on transparent engineering, reproducibility and control of the core technology stack.</p>
 <div class="notice"><strong>Research use only.</strong> ParsecScope is not clinically validated or cleared for diagnosis. Do not use this preview for patient-care decisions or upload identifiable patient data.</div>
 </div>
-<aside class="hero-card"><div>Current verified pipeline</div><div class="big">NIfTI → 3D AI</div><p>Native .nii/.nii.gz ingestion, geometry handling, KiTS23 preprocessing, sliding-window Generator3D execution, and restoration to source voxel geometry.</p></aside>
+<aside class="hero-card"><div>Development stage</div><div class="big">Research prototype</div><p>The C++ engine has run small training experiments on real CT scans. Improving mask quality and verifying GPU execution are the next milestones before end-to-end client testing.</p><div class="btns"><a class="btn" href="#progress">See verified progress</a></div></aside>
+</section>
+
+<section id="progress" class="section progress-overview" aria-labelledby="progressHeading">
+<div class="eyebrow">For investors and clients</div>
+<h2 id="progressHeading">What works today. What comes next.</h2>
+<p id="progressUpdated" class="snapshot-date" role="status">Loading the latest verified progress snapshot…</p>
+<div id="progressCards" class="progress-cards"></div>
+<div id="currentExperiment" class="status">Loading the current research update…</div>
+<div class="workspace">
+<div><h3>Try the client preview</h3><p class="sub">Download test images and inspect CT slices with an optional matching reference mask in your browser. Reference masks are supplied annotations; this preview does not generate AI predictions. Files stay on your device.</p><p class="snapshot-date">The local viewer supports 3D NIfTI-1 files up to 128 MiB, including the expanded size of compressed files. Full scans may require a desktop viewer.</p><div class="btns"><a class="btn primary" href="samples/viewer.html">Open local image viewer</a><a class="btn" href="samples/">Get test images</a></div></div>
+<div><h3>Next milestones</h3><ol id="nextMilestones" class="next-steps"><li>Loading verified next steps…</li></ol><p class="snapshot-date">A date for end-to-end AI masking tests will follow model-quality and GPU validation. No release date is committed yet.</p></div>
+</div>
+<p class="progress-links"><a href="#engineering">Read the engineering detail and timeline ↓</a></p>
 </section>
 
 <section class="grid3">
@@ -43,9 +59,9 @@ footer{border-top:1px solid var(--line);background:white;color:#75838f;font-size
 </section>
 
 <section class="section">
-<h2>Client workflow preview</h2>
+<h2>Planned online analysis workflow</h2>
 <div class="btns"><a class="btn primary" href="samples/">Download client test images</a><a class="btn" href="samples/viewer.html">Inspect NIfTI slices locally</a></div>
-<p class="sub">This stable public page demonstrates the intended end-client experience. File selection is local-only for now; secure Internet upload is the next product step.</p>
+<p class="sub">The controls below demonstrate future online analysis. Selecting a file only checks its name and size; public upload and AI masking are not enabled. Use the local viewer above to inspect image slices now.</p>
 <div class="workspace">
 <article class="card">
 <h3>Research CT volume</h3>
@@ -64,8 +80,8 @@ footer{border-top:1px solid var(--line);background:white;color:#75838f;font-size
 </div>
 </section>
 
-<section id="progress" class="section">
-<h2>Current product progress</h2>
+<section id="engineering" class="section">
+<h2>Engineering progress</h2>
 <p class="sub">Training and its prerequisites are now the primary engineering track. The Gantt chart below is updated from verified engineering milestones. Planned dates are estimates; completed work is marked separately.</p>
 <div class="roadmap">
 <div class="road done"><strong>Verified</strong>Native .nii / .nii.gz ingestion</div>
@@ -73,6 +89,7 @@ footer{border-top:1px solid var(--line);background:white;color:#75838f;font-size
 <div class="road done"><strong>Verified</strong>Source-geometry restoration</div>
 <div class="road now"><strong>Primary focus</strong>Native Generator3D training stack</div>
 </div>
+<details class="engineering-detail"><summary>Detailed engineering timeline</summary>
 <div class="gantt-wrap">
 <div class="gantt-head">
 <div><strong>ParsecScope engineering Gantt</strong><div class="gantt-meta" id="ganttUpdated">Loading schedule…</div><p class="gantt-meta gantt-date-note" id="ganttDateNote"></p></div>
@@ -80,16 +97,36 @@ footer{border-top:1px solid var(--line);background:white;color:#75838f;font-size
 </div>
 <div class="gantt" id="gantt"></div>
 </div>
+</details>
 </section>
 </main>
 <footer><div>ParsecScope research software • Development preview • Not for clinical diagnosis or treatment</div></footer>
 <script>
 const file=document.getElementById('file'), meta=document.getElementById('filemeta'), localStatus=document.getElementById('localStatus');
 file.addEventListener('change',()=>{const f=file.files[0];if(!f){meta.textContent='No file selected.';return}const ok=/\.nii(\.gz)?$/i.test(f.name);meta.textContent=f.name+' • '+(f.size/1024/1024).toFixed(2)+' MB'+(ok?' • format recognized':' • unsupported extension');localStatus.className='status '+(ok?'ok':'');localStatus.textContent=ok?'File recognized locally. It has not been uploaded.':'Please choose a .nii or .nii.gz research volume.'});
+function renderPublicProgress(s){
+ const updated=document.getElementById('progressUpdated'), cards=document.getElementById('progressCards'), experiment=document.getElementById('currentExperiment'), next=document.getElementById('nextMilestones');
+ updated.textContent='Last verified: '+(s.updated||'Date unavailable')+' • Brisbane time (UTC+10). This is a published snapshot, not a live training feed.';
+ cards.replaceChildren();
+ const build=s.build, probe=s.latest_completed_training, preview=s.client_preview;
+ const passed=build?.status==='passed'&&Number.isInteger(build.tests_passed)&&Number.isInteger(build.tests_total);
+ const rows=[
+  [passed?'Verified':'Awaiting verification','C++ engine',passed?`${build.tests_passed} of ${build.tests_total} automated tests passed. The native engine can read and process research CT volumes.`:'Build verification is not available in this snapshot.',!passed],
+  [probe?'Completed research run':'Awaiting evidence','Real-data training',probe?`${probe.training_cases} training scans and ${probe.validation_cases} held-out scan; ${probe.updates} updates on ${probe.device}. Saving and resuming training has been demonstrated.`:'No completed real-data run is reported in this snapshot.',!probe],
+  ['In development','AI masking quality',probe&&Number.isFinite(probe.held_out_whole_volume_dice_final)?`Latest complete-scan overlap score: ${probe.held_out_whole_volume_dice_final.toFixed(6)} out of 1. Scores near zero mean poor masks. Quality is not ready for client use.`:'Useful AI masking quality has not been verified.',true],
+  [preview?.status==='available'?'Available now':'Preview','Local image viewer',preview?.summary||'Open CT slices and optional supplied reference masks locally. This viewer does not run AI predictions.',false]
+ ];
+ for(const [label,title,body,pending] of rows){const card=document.createElement('article');card.className='progress-card';const badge=document.createElement('span');badge.className='badge'+(pending?' pending':'');badge.textContent=label;const h=document.createElement('h3');h.textContent=title;const p=document.createElement('p');p.textContent=body;card.append(badge,h,p);cards.appendChild(card)}
+ const active=s.active_training;
+ experiment.textContent=active?.status==='in_progress'?`Research update — running when checked at ${active.observed_at}: ${active.description}. Final results are pending.`:'Research update — '+(active?.description||'No active training run is reported in this snapshot.');
+ next.replaceChildren();
+ for(const line of s.next_milestones||['Verify GPU execution on an accessible NVIDIA runtime.','Improve complete-scan masking quality.','Enable a secure upload-to-results workflow for limited client testing.']){const item=document.createElement('li');item.textContent=line;next.appendChild(item)}
+}
 async function loadStatus(showRaw=false){
  const summary=document.getElementById('summary'), metrics=document.getElementById('metrics'), raw=document.getElementById('raw'), live=document.getElementById('live'), trainingLog=document.getElementById('trainingLog');
  try{
-  const r=await fetch('status.json?ts='+Date.now(),{cache:'no-store'});const s=await r.json();
+  const r=await fetch('status.json?ts='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error('Unable to load the published status');const s=await r.json();
+  renderPublicProgress(s);
   summary.textContent=s.summary;
   metrics.innerHTML='';
   const items=[['Native C++',s.native_cpp?'Verified':'—'],['Registered tests',s.registered_tests],['NIfTI',s.nifti],['Whole-volume',s.whole_volume],['R2 trained parity',s.r2_parity],['Updated',s.updated]];
@@ -112,7 +149,7 @@ async function loadStatus(showRaw=false){
   }else trainingLog.textContent='No training run has been reported in this snapshot.';
   if(s.live_url){live.href=s.live_url;live.textContent='Open live native demo';live.setAttribute('aria-disabled','false')}else{live.removeAttribute('href');live.textContent='Live native demo offline';live.setAttribute('aria-disabled','true')}
   raw.hidden=!showRaw;raw.textContent=JSON.stringify(s,null,2);
- }catch(e){summary.textContent='Status snapshot unavailable: '+e.message;trainingLog.textContent='Training run details unavailable.'}
+ }catch(e){summary.textContent='Status snapshot unavailable: '+e.message;trainingLog.textContent='Training run details unavailable.';document.getElementById('progressUpdated').textContent='The progress snapshot could not be loaded. Please refresh to try again.';document.getElementById('progressCards').replaceChildren();document.getElementById('currentExperiment').textContent='Current training status is unavailable.';document.getElementById('nextMilestones').textContent='Milestone details are unavailable.'}
 }
 function ganttDateLabel(iso,includeYear=false){
  return new Intl.DateTimeFormat('en-AU',{day:'numeric',month:'short',...(includeYear?{year:'numeric'}:{}),timeZone:'UTC'}).format(new Date(iso+'T00:00:00Z'));

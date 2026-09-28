@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-29 06:22 AEST",
+  "updated": "2026-09-29 06:29 AEST",
   "note": "Native C++ CPU build: 52/52 tests passed. Real-data training and complete held-out scan evaluation have executed. The 20-update experiment is running at this snapshot; useful masking quality and actual GPU execution remain unverified. Future bars are original planning estimates, not delivery commitments.",
   "days": [
     "Sep 28",
@@ -153,7 +153,7 @@
     {
       "name": "Cyst-present 20-update CPU experiment",
       "priority": 0,
-      "status": "running at snapshot; completed update count not yet verified",
+      "status": "Training/resume step passed; whole-scan evaluation in progress; final result pending",
       "critical": true,
       "start": 1,
       "end": 1,
@@ -216,7 +216,7 @@
     {
       "name": "Visual segmentation viewer",
       "priority": 2,
-      "status": "planned",
+      "status": "Local CT/reference-mask viewer available; AI prediction workflow pending",
       "critical": false,
       "start": 4,
       "end": 8,

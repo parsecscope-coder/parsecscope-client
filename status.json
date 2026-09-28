@@ -1,7 +1,7 @@
 {
   "project": "ParsecScope",
   "surface": "end-client research preview",
-  "summary": "The native C++ CPU build passes all 52 tests. Real-data research training, checkpoint resume, class-aware kidney/tumor/cyst sampling, and complete held-out scan evaluation have executed successfully. A 20-update cyst-present CPU experiment is running at this snapshot. CUDA compilation is verified, but actual GPU execution and useful client masking quality remain unverified.",
+  "summary": "The native C++ CPU build passes all 52 tests. Small real-data research training, checkpoint resume, and complete held-out scan evaluation have executed successfully. The current 20-update CPU experiment has passed its training/resume step and is evaluating complete scans. CUDA compilation is verified; GPU execution and useful client masking quality remain unverified. A local image and reference-mask viewer is available now.",
   "native_cpp": true,
   "registered_tests": "52/52 passed on the latest native C++ build",
   "nifti": ".nii / .nii.gz verified",
@@ -11,8 +11,8 @@
   "upload_policy": "metadata/size/de-identification policy verified; public upload remains disabled",
   "r2_parity": "pending archived R2 checkpoint",
   "live_url": "",
-  "updated": "2026-09-29 06:22 AEST",
-  "training": "Native CPU research training operational; 20-update experiment in progress at snapshot",
+  "updated": "2026-09-29 06:29 AEST",
+  "training": "Native CPU research training operational; current 20-update experiment is evaluating complete scans at this snapshot",
   "training_probe": {
     "data": "real public KiTS23 subset",
     "training_cases": 2,
@@ -55,11 +55,11 @@
   },
   "active_training": {
     "status": "in_progress",
-    "observed_at": "2026-09-29 06:22 AEST",
-    "description": "20-update native CPU learning curve with a held-out scan containing kidney, tumor and cyst labels",
+    "observed_at": "2026-09-29 06:29 AEST",
+    "description": "20-update native CPU experiment: training and resume step passed; complete held-out scan evaluation is running",
     "planned_updates": 20,
     "completed_updates": null,
-    "stage": "Training; final whole-scan evaluation and artifact checks are pending"
+    "stage": "Whole-scan evaluation; final metrics, artifact and experiment checks are pending"
   },
   "previous_completed_learning_curve": {
     "data": "real KiTS23 subset",
@@ -68,5 +68,26 @@
     "held_out_whole_volume_dice_initial": 0.00445291601,
     "held_out_whole_volume_dice_final": 0.005021686587,
     "quality": "Slight improvement on a different held-out scan; absolute quality remains extremely poor. Scores must not be compared directly across different splits."
-  }
+  },
+  "client_preview": {
+    "status": "available",
+    "url": "samples/viewer.html",
+    "summary": "Inspect CT slices and matching supplied reference masks in your browser. Files stay on your device; this viewer does not generate AI predictions.",
+    "public_upload": false,
+    "ai_predictions": false,
+    "max_expanded_bytes": 134217728
+  },
+  "gpu_training": {
+    "status": "awaiting_hardware_validation",
+    "cuda_compilation": "passed",
+    "hardware_execution": "unverified",
+    "requirement": "Access to an authorized NVIDIA GPU runtime, followed by GPU execution and CPU/GPU numerical comparison tests.",
+    "start_date": null
+  },
+  "next_milestones": [
+    "Finish the current CPU experiment and review complete-scan masking quality.",
+    "Verify execution and numerical agreement on an accessible NVIDIA GPU, then attempt a small real-data GPU run.",
+    "Improve mask quality across kidney, tumor and cyst before offering AI results to clients.",
+    "Connect secure upload, AI processing and results viewing for limited end-to-end client testing."
+  ]
 }

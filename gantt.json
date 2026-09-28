@@ -1,6 +1,6 @@
 {
-  "updated": "2026-09-28 20:38 AEST",
-  "note": "Native Adam sessions and the first small real-data CPU probe are verified. Model quality and actual GPU execution remain unverified. Future bars retain original planning estimates and are not confirmed delivery dates.",
+  "updated": "2026-09-29 06:22 AEST",
+  "note": "Native C++ CPU build: 52/52 tests passed. Real-data training and complete held-out scan evaluation have executed. The 20-update experiment is running at this snapshot; useful masking quality and actual GPU execution remain unverified. Future bars are original planning estimates, not delivery commitments.",
   "days": [
     "Sep 28",
     "Sep 29",
@@ -124,6 +124,42 @@
       "progress": 100
     },
     {
+      "name": "Complete real held-out scan evaluation",
+      "priority": 0,
+      "status": "verified",
+      "critical": true,
+      "start": 1,
+      "end": 1,
+      "progress": 100
+    },
+    {
+      "name": "Class-aware kidney/tumor/cyst sampling",
+      "priority": 0,
+      "status": "verified",
+      "critical": true,
+      "start": 1,
+      "end": 1,
+      "progress": 100
+    },
+    {
+      "name": "Bounded 16-update real CPU learning curve",
+      "priority": 0,
+      "status": "verified execution; quality remains poor",
+      "critical": true,
+      "start": 1,
+      "end": 1,
+      "progress": 100
+    },
+    {
+      "name": "Cyst-present 20-update CPU experiment",
+      "priority": 0,
+      "status": "running at snapshot; completed update count not yet verified",
+      "critical": true,
+      "start": 1,
+      "end": 1,
+      "progress": 0
+    },
+    {
       "name": "GPU tensor/memory abstraction",
       "priority": 1,
       "status": "CUDA compiled; hardware checks pending",
@@ -144,7 +180,7 @@
     {
       "name": "CPU/GPU training parity",
       "priority": 1,
-      "status": "planned",
+      "status": "blocked: accessible GPU runtime needed",
       "critical": true,
       "start": 16,
       "end": 18,
@@ -153,16 +189,16 @@
     {
       "name": "Practical GPU training run",
       "priority": 1,
-      "status": "planned",
+      "status": "pending hardware parity and GPU access",
       "critical": true,
       "start": 18,
       "end": 19,
       "progress": 0
     },
     {
-      "name": "Useful masking quality + whole-scan validation",
+      "name": "Useful whole-scan masking quality",
       "priority": 1,
-      "status": "not yet demonstrated",
+      "status": "evaluated; quality remains extremely poor",
       "critical": true,
       "start": 1,
       "end": 19,

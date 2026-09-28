@@ -1,18 +1,18 @@
 {
   "project": "ParsecScope",
   "surface": "end-client research preview",
-  "summary": "The first small real-data run on the native C++ engine succeeded on 28 September: four CPU updates using two public research scans and one held-out scan, with checkpoint save/resume. The latest native build passes 51 tests. Held-out patch Dice did not improve, so useful masking quality is not yet demonstrated. GPU hardware verification and broader training are next.",
+  "summary": "The native C++ CPU build passes all 52 tests. Real-data research training, checkpoint resume, class-aware kidney/tumor/cyst sampling, and complete held-out scan evaluation have executed successfully. A 20-update cyst-present CPU experiment is running at this snapshot. CUDA compilation is verified, but actual GPU execution and useful client masking quality remain unverified.",
   "native_cpp": true,
-  "registered_tests": "51/51 passed on the current native integration build",
+  "registered_tests": "52/52 passed on the latest native C++ build",
   "nifti": ".nii / .nii.gz verified",
-  "whole_volume": "sliding-window software tests passed; trained whole-scan quality unverified",
+  "whole_volume": "Complete real held-out scans evaluated; masking quality remains extremely poor",
   "source_geometry": "axis-aligned + oblique handling verified",
   "request_boundary": "bounded fragmented HTTP body reader verified",
   "upload_policy": "metadata/size/de-identification policy verified; public upload remains disabled",
   "r2_parity": "pending archived R2 checkpoint",
   "live_url": "",
-  "updated": "2026-09-28 20:38 AEST",
-  "training": "First real-data CPU probe completed; four updates; GPU execution pending",
+  "updated": "2026-09-29 06:22 AEST",
+  "training": "Native CPU research training operational; 20-update experiment in progress at snapshot",
   "training_probe": {
     "data": "real public KiTS23 subset",
     "training_cases": 2,
@@ -26,5 +26,47 @@
     "held_out_patch_dice_final": 0.1016416237,
     "checkpoint_resume": "verified in the real-data probe",
     "quality": "Execution evidence only; no useful or clinical masking accuracy demonstrated"
+  },
+  "build": {
+    "language": "C++",
+    "status": "passed",
+    "verified_at": "2026-09-29 06:15 AEST",
+    "tests_passed": 52,
+    "tests_total": 52,
+    "cuda": "Compilation passed; GPU hardware execution unverified"
+  },
+  "latest_completed_training": {
+    "data": "real public KiTS23 subset with kidney, tumor and cyst labels",
+    "training_cases": 2,
+    "validation_cases": 1,
+    "device": "CPU",
+    "updates": 4,
+    "model_base_width": 1,
+    "patch": "16 × 16 × 16",
+    "wall_seconds": 176,
+    "completed": "2026-09-29 04:20 AEST",
+    "held_out_patch_dice_initial": 0.196103529,
+    "held_out_patch_dice_final": 0.1990085,
+    "held_out_whole_volume_dice_initial": 0.003542147,
+    "held_out_whole_volume_dice_final": 0.00357495,
+    "whole_volume_validation_seconds": 370.512,
+    "checkpoint_resume": "completed successfully in a separate process",
+    "quality": "Research execution evidence only. Absolute whole-scan quality remains extremely poor and unsuitable for client masking."
+  },
+  "active_training": {
+    "status": "in_progress",
+    "observed_at": "2026-09-29 06:22 AEST",
+    "description": "20-update native CPU learning curve with a held-out scan containing kidney, tumor and cyst labels",
+    "planned_updates": 20,
+    "completed_updates": null,
+    "stage": "Training; final whole-scan evaluation and artifact checks are pending"
+  },
+  "previous_completed_learning_curve": {
+    "data": "real KiTS23 subset",
+    "device": "CPU",
+    "updates": 16,
+    "held_out_whole_volume_dice_initial": 0.00445291601,
+    "held_out_whole_volume_dice_final": 0.005021686587,
+    "quality": "Slight improvement on a different held-out scan; absolute quality remains extremely poor. Scores must not be compared directly across different splits."
   }
 }

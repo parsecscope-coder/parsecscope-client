@@ -1,0 +1,92 @@
+{
+  "dataset": "KiTS23",
+  "source": "https://github.com/neheller/kits23",
+  "imaging_source": "https://huggingface.co/datasets/neheller/KiTS-Challenge-Imaging",
+  "attribution": "Nicholas Heller and the KiTS23 contributors",
+  "license": "CC BY-NC-SA 4.0",
+  "license_source": "https://github.com/neheller/kits23#license-and-attribution",
+  "usage_note": "The maintainer requires contact for commercial purposes. Public download does not grant unrestricted commercial use.",
+  "checked_date": "2026-09-28",
+  "cases": [
+    {
+      "id": "case_00002",
+      "kind": "real CT",
+      "image": {
+        "url": "https://huggingface.co/datasets/neheller/KiTS-Challenge-Imaging/resolve/65f1f295873a326230153c7e1de0c7dba10f0b29/images/case_00002.nii.gz",
+        "bytes": 101967812,
+        "sha256": "58fcd6c4e59c747c2927b4ff12305f553abd33454cff6533082706b946173201",
+        "nifti_datatype": 64,
+        "nifti_bitpix": 64,
+        "nifti_dim": [
+          3,
+          261,
+          512,
+          512,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "mask": {
+        "url": "https://raw.githubusercontent.com/neheller/kits23/c1088353084c17b8882a11db71429e7c022b7785/dataset/case_00002/segmentation.nii.gz",
+        "bytes": 373942,
+        "sha256": "3966f0fdf015d396a5296d18b4ffbbb91f6c946035a352af581b36664800bf4d",
+        "nifti_datatype": 2,
+        "nifti_bitpix": 8,
+        "nifti_dim": [
+          3,
+          261,
+          512,
+          512,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "role_in_engine_probe": "training",
+      "compatibility_evidence": "Official files downloaded and consumed successfully by native C++ CPU pipeline on 2026-09-28; not independent clinical evaluation."
+    },
+    {
+      "id": "case_00003",
+      "kind": "real CT",
+      "image": {
+        "url": "https://huggingface.co/datasets/neheller/KiTS-Challenge-Imaging/resolve/65f1f295873a326230153c7e1de0c7dba10f0b29/images/case_00003.nii.gz",
+        "bytes": 118681596,
+        "sha256": "63d267967cd02889415de2978903df36703cd7b5181e1226dc91d4832f7d5586",
+        "nifti_datatype": 64,
+        "nifti_bitpix": 64,
+        "nifti_dim": [
+          3,
+          270,
+          512,
+          512,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "mask": {
+        "url": "https://raw.githubusercontent.com/neheller/kits23/c1088353084c17b8882a11db71429e7c022b7785/dataset/case_00003/segmentation.nii.gz",
+        "bytes": 379266,
+        "sha256": "64e24f4cd3e90e57228a2dd4598244a208f58034f53f93f07019e99124368440",
+        "nifti_datatype": 2,
+        "nifti_bitpix": 8,
+        "nifti_dim": [
+          3,
+          270,
+          512,
+          512,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "role_in_engine_probe": "held-out validation",
+      "compatibility_evidence": "Official files downloaded and consumed successfully by native C++ CPU pipeline on 2026-09-28; not independent clinical evaluation."
+    }
+  ]
+}

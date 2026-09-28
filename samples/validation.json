@@ -1,0 +1,26 @@
+{
+  "date": "2026-09-28",
+  "engine_implementation": "e2814d1",
+  "checks": [
+    {
+      "case": "synthetic_01",
+      "native_pair_loading": "passed",
+      "label_counts_match": "passed",
+      "patch_voxels": 4096
+    },
+    {
+      "case": "synthetic_02",
+      "native_pair_loading": "passed",
+      "label_counts_match": "passed",
+      "patch_voxels": 4096
+    },
+    {
+      "case": "synthetic_03",
+      "native_pair_loading": "passed",
+      "label_counts_match": "passed",
+      "patch_voxels": 4096
+    }
+  ],
+  "plain_and_gzip_equivalence": "passed",
+  "scope": "Data loading, pair geometry, voxel counts and patch extraction; no model inference or clinical validation."
+}

@@ -1,0 +1,170 @@
+{
+  "version": "1.0.0",
+  "generated_date": "2026-09-28",
+  "data_type": "synthetic mathematical phantoms",
+  "not_for": "clinical decisions or measuring real-patient model accuracy",
+  "labels": {
+    "0": "background",
+    "1": "kidney-shaped regions",
+    "2": "tumor-shaped region",
+    "3": "cyst-shaped region"
+  },
+  "cases": [
+    {
+      "id": "synthetic_01",
+      "title": "01 \u00b7 Two kidney-shaped regions",
+      "kind": "synthetic",
+      "shape_xyz": [
+        96,
+        96,
+        64
+      ],
+      "spacing_mm": [
+        2.5,
+        2.5,
+        3.0
+      ],
+      "storage_to_world_affine": [
+        [
+          2.5,
+          -0.0,
+          0.0,
+          -118.75
+        ],
+        [
+          0.0,
+          2.5,
+          0.0,
+          -118.75
+        ],
+        [
+          0.0,
+          0.0,
+          3.0,
+          -94.5
+        ]
+      ],
+      "rotation_degrees": 0.0,
+      "image": "images/synthetic_01_ct.nii.gz",
+      "reference_mask": "reference_masks/synthetic_01_mask.nii.gz",
+      "label_voxels": {
+        "0": 579708,
+        "1": 10116,
+        "2": 0,
+        "3": 0
+      },
+      "label_volume_ml": {
+        "0": 10869.525,
+        "1": 189.67499999999998,
+        "2": 0.0,
+        "3": 0.0
+      },
+      "image_sha256": "2deef15c5657149e6ff78bec2072329b7c815e95cd91b0b1786aa5a264f8fd81",
+      "mask_sha256": "c086ae18aba914e477d96f1842147df3a4490469353abbda9febd92ebd957885"
+    },
+    {
+      "id": "synthetic_02",
+      "title": "02 \u00b7 Added tumor-shaped region",
+      "kind": "synthetic",
+      "shape_xyz": [
+        96,
+        96,
+        64
+      ],
+      "spacing_mm": [
+        2.5,
+        2.5,
+        3.0
+      ],
+      "storage_to_world_affine": [
+        [
+          2.5,
+          -0.0,
+          0.0,
+          -118.75
+        ],
+        [
+          0.0,
+          2.5,
+          0.0,
+          -118.75
+        ],
+        [
+          0.0,
+          0.0,
+          3.0,
+          -94.5
+        ]
+      ],
+      "rotation_degrees": 0.0,
+      "image": "images/synthetic_02_ct.nii.gz",
+      "reference_mask": "reference_masks/synthetic_02_mask.nii.gz",
+      "label_voxels": {
+        "0": 579708,
+        "1": 9732,
+        "2": 384,
+        "3": 0
+      },
+      "label_volume_ml": {
+        "0": 10869.525,
+        "1": 182.475,
+        "2": 7.199999999999999,
+        "3": 0.0
+      },
+      "image_sha256": "91c88f4d9c16f02b0590800c711290cc43fe87ec62ecc38a6e4d86ade551177f",
+      "mask_sha256": "5e4ff6ce954d904f457478001c87b171234e037dd164810ed759e59fa16dc9bd"
+    },
+    {
+      "id": "synthetic_03",
+      "title": "03 \u00b7 Tumor + cyst shapes, rotated geometry",
+      "kind": "synthetic",
+      "shape_xyz": [
+        96,
+        96,
+        64
+      ],
+      "spacing_mm": [
+        2.5,
+        2.5,
+        4.0
+      ],
+      "storage_to_world_affine": [
+        [
+          2.4453690018345142,
+          -0.5197792270443984,
+          0.0,
+          -91.4655143025305
+        ],
+        [
+          0.5197792270443984,
+          2.4453690018345142,
+          0.0,
+          -140.84454087174836
+        ],
+        [
+          0.0,
+          0.0,
+          4.0,
+          -126.0
+        ]
+      ],
+      "rotation_degrees": 12.000000000000002,
+      "image": "images/synthetic_03_ct.nii.gz",
+      "reference_mask": "reference_masks/synthetic_03_mask.nii.gz",
+      "label_voxels": {
+        "0": 582220,
+        "1": 7131,
+        "2": 296,
+        "3": 177
+      },
+      "label_volume_ml": {
+        "0": 14555.5,
+        "1": 178.275,
+        "2": 7.4,
+        "3": 4.425
+      },
+      "image_sha256": "42438f6e8aab7532eee1226e3e83d19e39a882003500e2e47d4cd2e563f6cb74",
+      "mask_sha256": "26d9ba32a716fbcfaad7c0d5631460b1ec722c776f4fd19483a8d53be3cf2d00"
+    }
+  ]
+}

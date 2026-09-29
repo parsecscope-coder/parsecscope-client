@@ -7,6 +7,8 @@ Download each scan AND its matching mask, keeping each pair in a case folder.
 Real CT download page:
 https://parsecscope-coder.github.io/parsecscope-client/samples/#real-ct
 
-The full real scans exceed the included browser viewer's 128 MiB expanded-file
-limit. Use a desktop NIfTI viewer or the native engine for those full scans.
+Open full real scans in the current online viewer:
+https://parsecscope-coder.github.io/parsecscope-client/samples/viewer.html
+Extract .nii.gz to .nii for faster browsing. Older downloaded ZIP viewers may
+still have a 128 MiB limit; use the online viewer for full scans.
 The three small synthetic examples work in viewer.html after unzipping.

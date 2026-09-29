@@ -58,7 +58,9 @@ test('zero slope ignores intercept, per NIfTI scaling semantics',async()=>{
 });
 function viewer() {
   const vm=require('node:vm'),fs=require('node:fs');
-  const nodes=Object.fromEntries(['image','mask','slice','view','status','sliceNumber'].map(id=>[id,{value:'',files:[],disabled:false,addEventListener(event,fn){this[event]=fn;}}]));
+  const nodes=Object.fromEntries(['image','mask','prediction','overlay','overlayDescription','sample','exampleDescription','slice','view','status','sliceNumber'].map(id=>[id,{value:'',files:[],disabled:false,addEventListener(event,fn){this[event]=fn;}}]));
+  const options={reference:{disabled:true},prediction:{disabled:true}};
+  nodes.overlay.value='none';nodes.overlay.querySelector=s=>options[s.includes('reference')?'reference':'prediction'];
   let frame=null;
   nodes.view.getContext=()=>({clearRect(){frame=null;},createImageData(w,h){return {data:new Uint8ClampedArray(w*h*4)};},putImageData(f){frame=f;}});
   vm.runInNewContext(fs.readFileSync(require.resolve('../samples/viewer.js'),'utf8'),{document:{getElementById:id=>nodes[id]},ParsecNifti:{openVolume,matchingGeometry},AbortController,setTimeout,clearTimeout});
@@ -80,4 +82,15 @@ test('viewer rejects mismatched mask, then restores CT after clearing selection'
   n.mask.files=[new File([bad],'mask.nii')];await n.mask.change();
   assert.match(n.status.textContent,/do not match/);assert.equal(v.frame,null);
   n.mask.files=[];await n.mask.change();assert.ok(v.frame);assert.equal(n.slice.disabled,false);
+});
+test('reference and prediction remain separate and both clear when the CT changes',async()=>{
+  const v=viewer(),n=v.nodes;n.image.files=[new File([fixture()],'scan.nii')];await n.image.change();
+  n.mask.files=[new File([fixture()],'reference.nii')];await n.mask.change();
+  assert.equal(n.overlay.value,'reference');assert.match(n.overlayDescription.textContent,/supplied annotation/);
+  n.prediction.files=[new File([fixture()],'prediction.nii')];await n.prediction.change();
+  assert.equal(n.overlay.value,'prediction');assert.match(n.overlayDescription.textContent,/supplied model output/);
+  n.overlay.value='reference';await n.overlay.change();assert.match(n.status.textContent,/reference overlay/);
+  n.image.files=[new File([fixture()],'other-scan.nii')];await n.image.change();
+  assert.equal(n.overlay.value,'none');assert.match(n.status.textContent,/CT only/);
+  assert.ok(n.overlay.querySelector('reference').disabled);assert.ok(n.overlay.querySelector('prediction').disabled);
 });

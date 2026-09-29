@@ -1,271 +1,80 @@
 {
-  "updated": "2026-09-29 09:06 AEST",
-  "note": "Native C++ CPU build: 52/52 tests passed. Real-data training and complete held-out scan evaluation have executed. The 20-update experiment is running at this snapshot; useful masking quality and actual GPU execution remain unverified. Future bars are original planning estimates, not delivery commitments.",
-  "days": [
-    "Sep 28",
-    "Sep 29",
-    "Sep 30",
-    "Oct 1",
-    "Oct 2",
-    "Oct 3",
-    "Oct 4",
-    "Oct 5",
-    "Oct 6",
-    "Oct 7",
-    "Oct 8",
-    "Oct 9",
-    "Oct 10",
-    "Oct 11",
-    "Oct 12",
-    "Oct 13",
-    "Oct 14",
-    "Oct 15",
-    "Oct 16",
-    "Oct 17"
-  ],
+  "updated": "2026-09-30 04:05 AEST",
+  "start": "2026-09-30",
+  "end": "2027-03-17",
+  "note": "Research demo first, then a separately gated customer pilot. Dates are planning estimates; each unmet gate moves its dependent work. Percent-complete claims are intentionally omitted. A public online inference service is not enabled.",
   "tasks": [
     {
-      "name": "ConvTranspose3D backward",
-      "priority": 0,
-      "status": "verified",
-      "critical": true,
-      "start": 0,
-      "end": 0,
-      "progress": 100
+      "name": "Today's research demo",
+      "start": "2026-09-30",
+      "end": "2026-09-30",
+      "status": "Preparing",
+      "current": false,
+      "conditional": false
     },
     {
-      "name": "InstanceNorm3D backward",
-      "priority": 0,
-      "status": "verified",
-      "critical": true,
-      "start": 0,
-      "end": 1,
-      "progress": 100
+      "name": "Client acceptance and data scope",
+      "start": "2026-09-30",
+      "end": "2026-10-06",
+      "status": "Planned",
+      "current": false,
+      "conditional": false
     },
     {
-      "name": "Activation + concat backward",
-      "priority": 0,
-      "status": "verified",
-      "critical": true,
-      "start": 2,
-      "end": 2,
-      "progress": 100
+      "name": "Full-size training correctness",
+      "start": "2026-09-30",
+      "end": "2026-10-13",
+      "status": "Investigating",
+      "current": true,
+      "conditional": false
     },
     {
-      "name": "Segmentation loss + backward",
-      "priority": 0,
-      "status": "verified",
-      "critical": true,
-      "start": 2,
-      "end": 3,
-      "progress": 100
+      "name": "GPU execution and performance",
+      "start": "2026-10-14",
+      "end": "2026-10-27",
+      "status": "Planned",
+      "current": false,
+      "conditional": false
     },
     {
-      "name": "Generator3D backward graph",
-      "priority": 0,
-      "status": "verified",
-      "critical": true,
-      "start": 3,
-      "end": 5,
-      "progress": 100
+      "name": "Learning and whole-scan evaluation",
+      "start": "2026-10-28",
+      "end": "2026-11-17",
+      "status": "Planned",
+      "current": false,
+      "conditional": false
     },
     {
-      "name": "Native Adam optimizer",
-      "priority": 0,
-      "status": "verified",
-      "critical": true,
-      "start": 5,
-      "end": 6,
-      "progress": 100
+      "name": "Repeatable end-to-end application",
+      "start": "2026-11-18",
+      "end": "2026-12-01",
+      "status": "Planned",
+      "current": false,
+      "conditional": false
     },
     {
-      "name": "Checkpoint save/resume",
-      "priority": 0,
-      "status": "verified",
-      "critical": true,
-      "start": 5,
-      "end": 6,
-      "progress": 100
+      "name": "Native service and operations",
+      "start": "2026-12-02",
+      "end": "2026-12-22",
+      "status": "Planned",
+      "current": false,
+      "conditional": false
     },
     {
-      "name": "First end-to-end C++ training regression",
-      "priority": 0,
-      "status": "verified",
-      "critical": true,
-      "start": 6,
-      "end": 7,
-      "progress": 100
+      "name": "Pilot readiness and feedback",
+      "start": "2026-12-23",
+      "end": "2027-01-19",
+      "status": "Planned",
+      "current": false,
+      "conditional": false
     },
     {
-      "name": "KiTS23 native training-data path",
-      "priority": 0,
-      "status": "verified",
-      "critical": true,
-      "start": 7,
-      "end": 9,
-      "progress": 100
-    },
-    {
-      "name": "Native CPU training workflow (small model)",
-      "priority": 0,
-      "status": "verified",
-      "critical": true,
-      "start": 9,
-      "end": 11,
-      "progress": 100
-    },
-    {
-      "name": "First small real-data C++ CPU run",
-      "priority": 0,
-      "status": "verified",
-      "critical": true,
-      "start": 0,
-      "end": 0,
-      "progress": 100
-    },
-    {
-      "name": "Complete real held-out scan evaluation",
-      "priority": 0,
-      "status": "verified",
-      "critical": true,
-      "start": 1,
-      "end": 1,
-      "progress": 100
-    },
-    {
-      "name": "Class-aware kidney/tumor/cyst sampling",
-      "priority": 0,
-      "status": "verified",
-      "critical": true,
-      "start": 1,
-      "end": 1,
-      "progress": 100
-    },
-    {
-      "name": "Bounded 16-update real CPU learning curve",
-      "priority": 0,
-      "status": "verified execution; quality remains poor",
-      "critical": true,
-      "start": 1,
-      "end": 1,
-      "progress": 100
-    },
-    {
-      "name": "Cyst-present 20-update CPU experiment",
-      "priority": 0,
-      "status": "Completed: 20 CPU updates, separate resume and three complete-scan evaluations; quality remains extremely poor",
-      "critical": true,
-      "start": 1,
-      "end": 1,
-      "progress": 100
-    },
-    {
-      "name": "GPU tensor/memory abstraction",
-      "priority": 1,
-      "status": "GPU execution unverified; free Kaggle/Colab runtime access and hardware tests pending",
-      "critical": true,
-      "start": 0,
-      "end": 2,
-      "progress": 0
-    },
-    {
-      "name": "GPU Conv3D + ConvTranspose3D training kernels",
-      "priority": 1,
-      "status": "GPU execution unverified; free Kaggle/Colab runtime access and hardware tests pending",
-      "critical": true,
-      "start": 12,
-      "end": 16,
-      "progress": 0
-    },
-    {
-      "name": "CPU/GPU training parity",
-      "priority": 1,
-      "status": "GPU execution unverified; free Kaggle/Colab runtime access and hardware tests pending",
-      "critical": true,
-      "start": 16,
-      "end": 18,
-      "progress": 0
-    },
-    {
-      "name": "Practical GPU training run",
-      "priority": 1,
-      "status": "GPU execution unverified; free Kaggle/Colab runtime access and hardware tests pending",
-      "critical": true,
-      "start": 18,
-      "end": 19,
-      "progress": 0
-    },
-    {
-      "name": "Useful whole-scan masking quality",
-      "priority": 1,
-      "status": "evaluated; quality remains extremely poor",
-      "critical": true,
-      "start": 1,
-      "end": 19,
-      "progress": 0
-    },
-    {
-      "name": "Secure upload-to-inference handoff",
-      "priority": 2,
-      "status": "bounded request reader verified",
-      "critical": false,
-      "start": 0,
-      "end": 4,
-      "progress": 45
-    },
-    {
-      "name": "Visual segmentation viewer",
-      "priority": 2,
-      "status": "Local CT/reference-mask viewer available; AI prediction workflow pending",
-      "critical": false,
-      "start": 4,
-      "end": 8,
-      "progress": 10
-    },
-    {
-      "name": "Self-managed reverse tunnel/relay",
-      "priority": 3,
-      "status": "design track",
-      "critical": false,
-      "start": 8,
-      "end": 14,
-      "progress": 5
-    },
-    {
-      "name": "R2 checkpoint recovery + trained parity",
-      "priority": 1,
-      "status": "blocked: checkpoint missing",
-      "critical": false,
-      "start": 0,
-      "end": 19,
-      "progress": 20
-    },
-    {
-      "name": "Real-data balanced-sampling repeat",
-      "priority": 0,
-      "critical": true,
-      "start": 1,
-      "end": 1,
-      "progress": 100,
-      "status": "Verified on real data: 20 updates, intended class balance, separate resume and complete-scan evaluation"
-    },
-    {
-      "name": "Free GPU launch notebook",
-      "priority": 1,
-      "critical": false,
-      "start": 1,
-      "end": 1,
-      "progress": 100,
-      "status": "Prepared and locally checked; actual GPU execution pending"
-    },
-    {
-      "name": "Rare-class learning diagnostics",
-      "priority": 0,
-      "critical": true,
-      "start": 1,
-      "end": 1,
-      "progress": 0,
-      "status": "Next: measure per-class objective and gradient contributions before longer training"
+      "name": "Controlled customer pilot",
+      "start": "2027-01-20",
+      "end": "2027-03-16",
+      "status": "Conditional",
+      "current": false,
+      "conditional": true
     }
   ]
 }

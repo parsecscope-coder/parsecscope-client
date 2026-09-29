@@ -35,7 +35,10 @@
   }
   async function load(file,kind){
     clearTimeout(timer);sliceRead?.abort();reads[kind]?.abort();volumes[kind]=null;
-    if(kind==='image')for(const other of ['reference','prediction']){reads[other]?.abort();volumes[other]=null;inputs[other].value='';}
+    if(kind==='image'){
+      $('exampleDescription').textContent='Local image selected. Reference annotations and predictions are supplied separately.';
+      for(const other of ['reference','prediction']){reads[other]?.abort();volumes[other]=null;inputs[other].value='';}
+    }
     controls();clear();if(!file){if(volumes.image)await render();else status.textContent='Choose an image to begin.';return;}
     const signal=(reads[kind]=new AbortController()).signal,expected=volumes.image;
     status.textContent=`Reading ${file.name} locally…`;

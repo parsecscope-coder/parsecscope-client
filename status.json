@@ -1,7 +1,7 @@
 {
   "project": "ParsecScope",
   "surface": "end-client research preview",
-  "updated": "2026-09-30 05:48 AEST",
+  "updated": "2026-09-30 08:18 AEST",
   "summary": "A local end-to-end research demonstration now loads real CT patches, runs the original C++ model and displays genuine predictions. Native GPU execution was separately verified on a Tesla T4. Useful whole-scan quality and full-size numerical agreement remain unresolved. This public site displays files locally; it does not provide online inference.",
   "native_cpp": true,
   "registered_tests": "52/52 regressions passed; full-size reference comparison remains open",
@@ -79,5 +79,12 @@
     },
     "summary": "The local research demo loads a saved native checkpoint and returns fresh CPU predictions for a training patch and a separate held-out patch. Sixty-four fixed-patch updates reduced training loss from 2.1668 to 0.6646. Training-patch kidney/tumor Dice is 0.9476/0.9034, but held-out patch Dice is only 0.1541/0.2399. Neither selected patch contains cyst labels. These results do not establish whole-scan quality.",
     "public_online_inference": false
+  },
+  "investor_preview": {
+    "url": "investor/",
+    "demo_url": "investor/demo.html",
+    "plan_url": "investor/plan.pdf",
+    "execution": "recorded native results; no live public inference",
+    "requires_login": false
   }
 }

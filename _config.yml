@@ -1,0 +1,10 @@
+# GitHub Pages is only a gateway to the authenticated inspection portal.
+# Preserved research source remains in Git; do not publish it as Pages content.
+title: ParsecScope Inspection
+exclude:
+  - investor
+  - samples
+  - status.json
+  - gantt.json
+  - tools
+  - README.md

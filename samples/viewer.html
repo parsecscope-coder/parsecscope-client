@@ -6,8 +6,9 @@ body{font:16px/1.5 system-ui,sans-serif;max-width:980px;margin:auto;padding:24px
 </style></head><body><p><a href="./">← Test images</a></p><h1>Local NIfTI slice viewer</h1>
 <p>Select a research CT volume and, optionally, its matching reference mask. Files stay in your browser. This viewer shows stored axial slices; it does not run AI inference or apply a radiological orientation convention.</p>
 <label>CT image (.nii or .nii.gz)<input id="image" type="file" accept=".nii,.nii.gz"></label>
-<label>Reference mask, optional (.nii or .nii.gz)<input id="mask" type="file" accept=".nii,.nii.gz"></label>
+<p><small>Full scans open one slice at a time. For faster browsing, extract a .nii.gz file and select the .nii file. Files remain on your device.</small></p>
+<label>Reference mask, optional (.nii or .nii.gz)<input id="mask" type="file" accept=".nii,.nii.gz" disabled></label>
 <label>Stored Z slice: <output id="sliceNumber">—</output><input id="slice" type="range" min="0" max="0" value="0" disabled></label>
 <p id="status" role="status">Choose an image to begin.</p><canvas id="view" width="1" height="1" aria-label="Stored axial slice with optional reference mask"></canvas>
 <p><small>Reference labels: 1 kidney (teal), 2 tumor (orange), 3 cyst (blue). They are supplied annotations, not model predictions. Research and software testing only.</small></p>
-<script src="viewer.js"></script></body></html>
+<script src="nifti.js?v=2"></script><script src="viewer.js?v=2"></script></body></html>

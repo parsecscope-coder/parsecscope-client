@@ -13,7 +13,7 @@ to approximately 522 MiB and 540 MiB and exceed the local browser viewer limit.
 ## What clients can test today
 
 1. Unzip ParsecScope_Client_Test_Images_v1.zip.
-2. Open index.html for examples, or viewer.html to inspect stored Z slices and optional reference mask overlays locally in the browser. The viewer supports NIfTI-1 UINT8, INT16, FLOAT32 and FLOAT64 up to 128 MiB expanded size.
+2. Open index.html for examples, or viewer.html to inspect stored Z slices and optional reference mask overlays locally in the browser. The viewer supports NIfTI-1 UINT8, INT16, FLOAT32 and FLOAT64, with volumes up to 8 GiB expanded and 4 megapixels per stored slice. It reads only the selected slice; gzip is streamed from the beginning when changing slices. Extract to .nii for faster browsing.
 3. On https://parsecscope-coder.github.io/parsecscope-client/, select a CT file
    from images/ using the Research CT volume file chooser.
 4. Expect the filename, size and supported-format confirmation. The public

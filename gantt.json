@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-30 04:05 AEST",
+  "updated": "2026-09-30 05:48 AEST",
   "start": "2026-09-30",
   "end": "2027-03-17",
   "note": "Research demo first, then a separately gated customer pilot. Dates are planning estimates; each unmet gate moves its dependent work. Percent-complete claims are intentionally omitted. A public online inference service is not enabled.",
@@ -8,7 +8,7 @@
       "name": "Today's research demo",
       "start": "2026-09-30",
       "end": "2026-09-30",
-      "status": "Preparing",
+      "status": "Verified local research demo",
       "current": false,
       "conditional": false
     },

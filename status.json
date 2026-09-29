@@ -1,8 +1,8 @@
 {
   "project": "ParsecScope",
   "surface": "end-client research preview",
-  "updated": "2026-09-30 04:05 AEST",
-  "summary": "Native C++ GPU execution is verified on a Tesla T4. A three-update real CT probe completed, while full-size agreement with the reference and useful whole-scan masking quality remain unresolved. The public viewer displays local CT, reference and supplied prediction files; it does not run online AI analysis.",
+  "updated": "2026-09-30 05:48 AEST",
+  "summary": "A local end-to-end research demonstration now loads real CT patches, runs the original C++ model and displays genuine predictions. Native GPU execution was separately verified on a Tesla T4. Useful whole-scan quality and full-size numerical agreement remain unresolved. This public site displays files locally; it does not provide online inference.",
   "native_cpp": true,
   "registered_tests": "52/52 regressions passed; full-size reference comparison remains open",
   "nifti": ".nii / .nii.gz verified",
@@ -15,21 +15,6 @@
     "tests_total": 52,
     "cuda": "Small-model hardware gate passed; full-size reference agreement unresolved"
   },
-  "latest_completed_training": {
-    "data": "real KiTS23 research subset",
-    "training_cases": 2,
-    "validation_cases": 1,
-    "device": "one Tesla T4 (hybrid CUDA/CPU)",
-    "updates": 3,
-    "model_base_width": 16,
-    "parameters": 1549892,
-    "patch": "32 \u00d7 32 \u00d7 32",
-    "wall_seconds": 328.967,
-    "held_out_patch_dice_initial": 0.118220718,
-    "held_out_patch_dice_final": 0.137139855,
-    "checkpoint_resume": "Checkpoints saved. Exact resume passed in the separate small-model GPU gate; this real run was not separately resumed.",
-    "quality": "Only three fixed, class-targeted held-out patches were evaluated. Kidney improved, tumor declined slightly and cyst changed little. No whole-scan evaluation was performed in this GPU probe. This is execution evidence, not useful masking accuracy."
-  },
   "whole_volume_result": {
     "device": "earlier CPU experiment",
     "mean_dice": 0.004372642493,
@@ -37,7 +22,7 @@
   },
   "active_training": {
     "status": "no_active_gpu_session",
-    "description": "The saved GPU probe is complete and its session was stopped. Full-size numerical diagnosis and a bounded research demonstration are the current work; this published page is not a live training monitor."
+    "description": "The bounded local research demo is verified and ready for presentation. No training run is active. Full-size numerical disagreement and weak held-out quality remain the next engineering focus; this page is a published snapshot."
   },
   "gpu_training": {
     "status": "first_execution_verified",
@@ -55,9 +40,44 @@
     "max_expanded_bytes": 8589934592
   },
   "next_milestones": [
-    "Deliver a clearly labelled end-to-end research demonstration.",
+    "Rehearse the verified local research demo, then agree customer acceptance criteria.",
     "Resolve the full-size reference discrepancy and measure GPU performance.",
     "Demonstrate learning on independent full scans with agreed acceptance criteria.",
     "Begin a customer pilot only after quality, data and operational gates are met."
-  ]
+  ],
+  "latest_completed_gpu_training": {
+    "data": "real KiTS23 research subset",
+    "training_cases": 2,
+    "validation_cases": 1,
+    "device": "one Tesla T4 (hybrid CUDA/CPU)",
+    "updates": 3,
+    "model_base_width": 16,
+    "parameters": 1549892,
+    "patch": "32 × 32 × 32",
+    "wall_seconds": 328.967,
+    "held_out_patch_dice_initial": 0.118220718,
+    "held_out_patch_dice_final": 0.137139855,
+    "checkpoint_resume": "Checkpoints saved. Exact resume passed in the separate small-model GPU gate; this real run was not separately resumed.",
+    "quality": "Only three fixed, class-targeted held-out patches were evaluated. Kidney improved, tumor declined slightly and cyst changed little. No whole-scan evaluation was performed in this GPU probe. This is execution evidence, not useful masking accuracy."
+  },
+  "local_research_demo": {
+    "status": "verified_bounded_workflow",
+    "device": "CPU",
+    "updates": 64,
+    "training_cases": 1,
+    "heldout_demo_cases": 1,
+    "patch": "32 × 32 × 32",
+    "loss_initial": 2.166752815,
+    "loss_final": 0.6645886898,
+    "training_patch_dice": {
+      "kidney": 0.947612732,
+      "tumor": 0.903384524
+    },
+    "heldout_patch_dice": {
+      "kidney": 0.154070427,
+      "tumor": 0.239944713
+    },
+    "summary": "The local research demo loads a saved native checkpoint and returns fresh CPU predictions for a training patch and a separate held-out patch. Sixty-four fixed-patch updates reduced training loss from 2.1668 to 0.6646. Training-patch kidney/tumor Dice is 0.9476/0.9034, but held-out patch Dice is only 0.1541/0.2399. Neither selected patch contains cyst labels. These results do not establish whole-scan quality.",
+    "public_online_inference": false
+  }
 }

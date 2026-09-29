@@ -39,7 +39,7 @@ footer{border-top:1px solid var(--line);background:white;color:#75838f;font-size
 <p class="lead">ParsecScope is building a native C++ medical-imaging engine for volumetric CT analysis, with an emphasis on transparent engineering, reproducibility and control of the core technology stack.</p>
 <div class="notice"><strong>Research use only.</strong> ParsecScope is not clinically validated or cleared for diagnosis. Do not use this preview for patient-care decisions or upload identifiable patient data.</div>
 </div>
-<aside class="hero-card"><div>Development stage</div><div class="big">Research prototype</div><p>The C++ engine has run small training experiments on real CT scans. A first native GPU experiment has completed. We are preparing a bounded research demonstration while improving model quality before a separately gated customer pilot.</p><div class="btns"><a class="btn" href="#progress">See verified progress</a></div></aside>
+<aside class="hero-card"><div>Development stage</div><div class="big">Research prototype</div><p>The C++ engine has run small training experiments on real CT scans. A first native GPU experiment has completed. A bounded local research demonstration now connects CT input, native prediction and result viewing. Model quality must improve before a separately gated customer pilot.</p><div class="btns"><a class="btn" href="#progress">See verified progress</a></div></aside>
 </section>
 
 <section id="progress" class="section progress-overview" aria-labelledby="progressHeading">
@@ -72,7 +72,7 @@ footer{border-top:1px solid var(--line);background:white;color:#75838f;font-size
 <label class="upload">Choose a de-identified .nii or .nii.gz file<input id="file" type="file" accept=".nii,.nii.gz,.gz"></label>
 <div id="filemeta" class="filemeta">No file selected.</div>
 <div id="localStatus" class="status">Your selected file stays in your browser. Public upload is not enabled yet.</div>
-<div class="btns"><button id="snapshot" class="btn primary">View latest verified pipeline snapshot</button><a id="live" class="btn" aria-disabled="true">Live native demo offline</a></div>
+<div class="btns"><button id="snapshot" class="btn primary">View latest verified pipeline snapshot</button><a id="live" class="btn" aria-disabled="true">Public online inference unavailable</a></div>
 </article>
 <article class="card result">
 <h3>Verified engineering snapshot</h3>
@@ -112,7 +112,7 @@ function renderPublicProgress(s){
  const updated=document.getElementById('progressUpdated'), cards=document.getElementById('progressCards'), experiment=document.getElementById('currentExperiment'), next=document.getElementById('nextMilestones');
  updated.textContent='Last verified: '+(s.updated||'Date unavailable')+' • Brisbane time (UTC+10). This is a published snapshot, not a live training feed.';
  cards.replaceChildren();
- const build=s.build, probe=s.latest_completed_training, preview=s.client_preview;
+ const build=s.build, probe=s.latest_completed_gpu_training||s.latest_completed_training, preview=s.client_preview;
  const passed=build?.status==='passed'&&Number.isInteger(build.tests_passed)&&Number.isInteger(build.tests_total);
  const rows=[
   [passed?'Verified':'Awaiting verification','C++ engine',passed?`${build.tests_passed} of ${build.tests_total} automated tests passed. The native engine can read and process research CT volumes.`:'Build verification is not available in this snapshot.',!passed],
@@ -137,9 +137,9 @@ async function loadStatus(showRaw=false){
   const items=[['Native C++',s.native_cpp?'Verified':'—'],['Registered tests',s.registered_tests],['NIfTI',s.nifti],['Whole-volume',s.whole_volume],['R2 trained parity',s.r2_parity],['Updated',s.updated]];
   for(const [k,v] of items){const d=document.createElement('div');d.className='metric';d.innerHTML='<span></span><b></b>';d.querySelector('span').textContent=k;d.querySelector('b').textContent=v;metrics.appendChild(d)}
   trainingLog.replaceChildren();
-  const probe=s.latest_completed_training||s.training_probe;
+  const probe=s.latest_completed_gpu_training||s.latest_completed_training||s.training_probe;
   if(probe){
-   const title=document.createElement('h4');title.textContent=s.latest_completed_training?'Latest completed real-data training run':'First real-data training run';trainingLog.appendChild(title);
+   const title=document.createElement('h4');title.textContent=s.latest_completed_gpu_training?'Recorded GPU training probe':'Completed real-data training run';trainingLog.appendChild(title);
    const lines=[
     `Data: ${probe.training_cases} public training scans; ${probe.validation_cases} held-out scan.`,
     `Engine: native C++ on ${probe.device}; ${probe.updates} weight updates in ${probe.wall_seconds} seconds using ${probe.patch} voxel patches.`,
@@ -152,7 +152,8 @@ async function loadStatus(showRaw=false){
    for(const line of lines){const p=document.createElement('p');p.textContent=line;trainingLog.appendChild(p)}
    const caveat=document.createElement('p');caveat.className='caution';caveat.textContent=probe.quality||'This is a short execution check. Useful masking quality and GPU training have not been demonstrated.';trainingLog.appendChild(caveat);
   }else trainingLog.textContent='No training run has been reported in this snapshot.';
-  if(s.live_url){live.href=s.live_url;live.textContent='Open live native demo';live.setAttribute('aria-disabled','false')}else{live.removeAttribute('href');live.textContent='Live native demo offline';live.setAttribute('aria-disabled','true')}
+  if(s.local_research_demo){const h=document.createElement('h4');h.textContent='Verified local research demonstration';const p=document.createElement('p');p.textContent=s.local_research_demo.summary;trainingLog.append(h,p);}
+  if(s.live_url){live.href=s.live_url;live.textContent='Open live native demo';live.setAttribute('aria-disabled','false')}else{live.removeAttribute('href');live.textContent='Public online inference unavailable';live.setAttribute('aria-disabled','true')}
   raw.hidden=!showRaw;raw.textContent=JSON.stringify(s,null,2);
  }catch(e){summary.textContent='Status snapshot unavailable: '+e.message;trainingLog.textContent='Training run details unavailable.';document.getElementById('progressUpdated').textContent='The progress snapshot could not be loaded. Please refresh to try again.';document.getElementById('progressCards').replaceChildren();document.getElementById('currentExperiment').textContent='Current training status is unavailable.';document.getElementById('gpuProgress').textContent='GPU status is unavailable.';document.getElementById('nextMilestones').textContent='Milestone details are unavailable.'}
 }

@@ -1,149 +1,63 @@
 {
   "project": "ParsecScope",
   "surface": "end-client research preview",
-  "summary": "The native C++ CPU engine has passed all 52 tests. The corrected, class-balanced 20-update real-data run completed with separate checkpoint resume and complete held-out scan evaluation. Complete-scan Dice improved slightly to 0.004240, but mask quality remains extremely poor. A free Kaggle/Colab GPU launch notebook is prepared; runtime access and actual GPU execution are still pending. Clients can inspect CT slices and supplied reference masks locally.",
+  "updated": "2026-09-30 04:05 AEST",
+  "summary": "Native C++ GPU execution is verified on a Tesla T4. A three-update real CT probe completed, while full-size agreement with the reference and useful whole-scan masking quality remain unresolved. The public viewer displays local CT, reference and supplied prediction files; it does not run online AI analysis.",
   "native_cpp": true,
-  "registered_tests": "52/52 passed on the latest native C++ build",
+  "registered_tests": "52/52 regressions passed; full-size reference comparison remains open",
   "nifti": ".nii / .nii.gz verified",
-  "whole_volume": "Complete real held-out scans evaluated; masking quality remains extremely poor",
-  "source_geometry": "axis-aligned + oblique handling verified",
-  "request_boundary": "bounded fragmented HTTP body reader verified",
-  "upload_policy": "metadata/size/de-identification policy verified; public upload remains disabled",
-  "r2_parity": "pending archived R2 checkpoint",
+  "whole_volume": "Evaluation implemented; useful whole-scan quality unproven",
+  "r2_parity": "Archived trained checkpoint not recovered",
   "live_url": "",
-  "updated": "2026-09-29 09:06 AEST",
-  "training": "Balanced 20-update CPU run completed; rare-class learning diagnostics are the next model-quality task",
-  "training_probe": {
-    "data": "real public KiTS23 subset",
-    "training_cases": 2,
-    "validation_cases": 1,
-    "device": "CPU",
-    "updates": 4,
-    "model_base_width": 1,
-    "patch": "16 × 16 × 16",
-    "wall_seconds": 133,
-    "held_out_patch_dice_initial": 0.1063111607,
-    "held_out_patch_dice_final": 0.1016416237,
-    "checkpoint_resume": "verified in the real-data probe",
-    "quality": "Execution evidence only; no useful or clinical masking accuracy demonstrated"
-  },
   "build": {
-    "language": "C++",
     "status": "passed",
-    "verified_at": "2026-09-29 08:14 AEST",
     "tests_passed": 52,
     "tests_total": 52,
-    "cuda": "Compilation passed; GPU hardware execution unverified"
+    "cuda": "Small-model hardware gate passed; full-size reference agreement unresolved"
   },
   "latest_completed_training": {
-    "data": "real public KiTS23 subset with kidney, tumor and cyst labels",
+    "data": "real KiTS23 research subset",
     "training_cases": 2,
     "validation_cases": 1,
-    "device": "CPU",
-    "updates": 20,
-    "model_base_width": 1,
-    "patch": "16 × 16 × 16",
-    "wall_seconds": 695,
-    "completed": "2026-09-29 AEST",
-    "held_out_patch_dice_initial": 0.196103529,
-    "held_out_patch_dice_final": 0.209029151,
-    "held_out_whole_volume_dice_initial": 0.003542147,
-    "held_out_whole_volume_dice_final": 0.004239616,
-    "whole_volume_validation_seconds": 538.147,
-    "checkpoint_resume": "completed successfully in a separate process",
-    "quality": "The class-sampling defect is corrected and verified on real scans. Complete-scan mean overlap improved slightly, mainly through kidney; tumor remains near zero and cyst overlap ended below initialization. Quality remains extremely poor and unsuitable for client masking.",
-    "held_out_patch_dice_best": 0.209856555,
-    "training_loss_first": 2.2201817,
-    "training_loss_latest": 2.31105375,
-    "target_class_counts": {
-      "kidney": 5,
-      "tumor": 6,
-      "cyst": 6,
-      "spatial": 3
-    }
+    "device": "one Tesla T4 (hybrid CUDA/CPU)",
+    "updates": 3,
+    "model_base_width": 16,
+    "parameters": 1549892,
+    "patch": "32 \u00d7 32 \u00d7 32",
+    "wall_seconds": 328.967,
+    "held_out_patch_dice_initial": 0.118220718,
+    "held_out_patch_dice_final": 0.137139855,
+    "checkpoint_resume": "Checkpoints saved. Exact resume passed in the separate small-model GPU gate; this real run was not separately resumed.",
+    "quality": "Only three fixed, class-targeted held-out patches were evaluated. Kidney improved, tumor declined slightly and cyst changed little. No whole-scan evaluation was performed in this GPU probe. This is execution evidence, not useful masking accuracy."
+  },
+  "whole_volume_result": {
+    "device": "earlier CPU experiment",
+    "mean_dice": 0.004372642493,
+    "scope": "exclusive foreground mean over a complete held-out scan; not comparable to the targeted GPU patch score"
   },
   "active_training": {
-    "status": "completed",
-    "observed_at": "2026-09-29 09:06 AEST",
-    "description": "The balanced 20-update CPU experiment completed successfully. The next model-quality task is to investigate why tumor and cyst learning remain weak. GPU training has not started.",
-    "planned_updates": 20,
-    "completed_updates": 20,
-    "stage": "Completed and reviewed; longer training awaits model-quality diagnostics and GPU hardware validation"
+    "status": "no_active_gpu_session",
+    "description": "The saved GPU probe is complete and its session was stopped. Full-size numerical diagnosis and a bounded research demonstration are the current work; this published page is not a live training monitor."
   },
-  "previous_completed_learning_curve": {
-    "data": "real KiTS23 subset",
-    "device": "CPU",
-    "updates": 16,
-    "held_out_whole_volume_dice_initial": 0.00445291601,
-    "held_out_whole_volume_dice_final": 0.005021686587,
-    "quality": "Slight improvement on a different held-out scan; absolute quality remains extremely poor. Scores must not be compared directly across different splits."
+  "gpu_training": {
+    "status": "first_execution_verified",
+    "hardware_execution": "verified",
+    "backend": "CUDA convolution; CPU normalization, loss and Adam",
+    "public_summary": "Native forward/backward and checkpoint-resume checks passed on Tesla T4 hardware. Three real-data training updates completed. The session is stopped; full-size reference agreement and performance work remain."
   },
   "client_preview": {
     "status": "available",
     "url": "samples/viewer.html",
-    "summary": "Inspect CT slices and matching supplied reference masks in your browser. Files stay on your device; this viewer does not generate AI predictions.",
+    "summary": "Browse full CT scans and select separately labelled reference or supplied prediction overlays locally. No online inference or upload.",
     "public_upload": false,
     "ai_predictions": false,
-    "max_expanded_bytes": 134217728
-  },
-  "gpu_training": {
-    "status": "awaiting_notebook_access",
-    "cuda_compilation": "passed",
-    "hardware_execution": "unverified",
-    "requirement": "Access to an authorized NVIDIA GPU runtime, followed by GPU execution and CPU/GPU numerical comparison tests.",
-    "start_date": null,
-    "preferred_hosts": [
-      "Kaggle free GPU",
-      "Google Colab free GPU"
-    ],
-    "launch_package": "Prepared and checked locally; not executed on a GPU",
-    "backend": "CUDA convolutions; CPU normalization, loss and Adam",
-    "public_summary": "Free Kaggle/Colab launch notebook prepared. Connecting an authorized NVIDIA runtime and passing the hardware comparison tests are still required. No GPU training run has started.",
-    "planned_probe_updates": 4
+    "prediction_file_display": true,
+    "max_expanded_bytes": 8589934592
   },
   "next_milestones": [
-    "Diagnose weak tumor and cyst learning with per-class objective and gradient checks.",
-    "Connect a free Kaggle or Colab NVIDIA GPU runtime; pass hardware tests and attempt a four-update real-data execution probe.",
-    "Improve complete-scan mask quality before offering AI results to clients.",
-    "Connect secure upload, AI processing and results viewing for limited end-to-end client testing."
-  ],
-  "previous_completed_cyst_probe": {
-    "data": "real public KiTS23 subset with kidney, tumor and cyst labels",
-    "training_cases": 2,
-    "validation_cases": 1,
-    "device": "CPU",
-    "updates": 4,
-    "model_base_width": 1,
-    "patch": "16 × 16 × 16",
-    "wall_seconds": 176,
-    "completed": "2026-09-29 04:20 AEST",
-    "held_out_patch_dice_initial": 0.196103529,
-    "held_out_patch_dice_final": 0.1990085,
-    "held_out_whole_volume_dice_initial": 0.003542147,
-    "held_out_whole_volume_dice_final": 0.00357495,
-    "whole_volume_validation_seconds": 370.512,
-    "checkpoint_resume": "completed successfully in a separate process",
-    "quality": "Research execution evidence only. Absolute whole-scan quality remains extremely poor and unsuitable for client masking."
-  },
-  "previous_completed_unbalanced_training": {
-    "data": "real public KiTS23 subset with kidney, tumor and cyst labels",
-    "training_cases": 2,
-    "validation_cases": 1,
-    "device": "CPU",
-    "updates": 20,
-    "model_base_width": 1,
-    "patch": "16 × 16 × 16",
-    "wall_seconds": 794,
-    "completed": "2026-09-29 AEST",
-    "held_out_patch_dice_initial": 0.196103529,
-    "held_out_patch_dice_final": 0.205487823,
-    "held_out_whole_volume_dice_initial": 0.003542147,
-    "held_out_whole_volume_dice_final": 0.004174203,
-    "whole_volume_validation_seconds": 608.666,
-    "checkpoint_resume": "completed successfully in a separate process",
-    "quality": "Complete-scan mean overlap improved slightly but remains extremely poor and unsuitable for client masking. Cyst overlap did not improve. Uneven class sampling was found; a corrected repeat is in progress.",
-    "held_out_patch_dice_best": 0.207168955,
-    "training_loss_first": 2.21106982,
-    "training_loss_latest": 2.31117511
-  }
+    "Deliver a clearly labelled end-to-end research demonstration.",
+    "Resolve the full-size reference discrepancy and measure GPU performance.",
+    "Demonstrate learning on independent full scans with agreed acceptance criteria.",
+    "Begin a customer pilot only after quality, data and operational gates are met."
+  ]
 }

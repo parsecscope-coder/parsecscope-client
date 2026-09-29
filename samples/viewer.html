@@ -4,11 +4,14 @@
 <style>
 body{font:16px/1.5 system-ui,sans-serif;max-width:980px;margin:auto;padding:24px;color:#173348;background:#f5f9fc}a{color:#086c8e}h1{line-height:1.15}label{display:block;margin:15px 0;font-weight:650}input[type=file]{display:block;margin-top:5px;max-width:100%}input[type=range]{width:min(100%,500px)}canvas{display:block;width:min(100%,768px);height:auto;image-rendering:pixelated;background:#10202b;border-radius:10px}#status{background:white;border:1px solid #d9e5ed;border-radius:10px;padding:12px;min-height:24px}small{color:#536c7c}
 </style></head><body><p><a href="./">← Test images</a></p><h1>Local NIfTI slice viewer</h1>
-<p>Select a research CT volume and, optionally, its matching reference mask. Files stay in your browser. This viewer shows stored axial slices; it does not run AI inference or apply a radiological orientation convention.</p>
+<p>Open a research CT and compare it with a supplied reference mask or prediction file. Files stay in your browser. This viewer displays stored axial slices; it does not run AI inference or apply a radiological orientation convention.</p>
+<p><button id="sample" type="button">Try a synthetic example</button> <a href="../#progress">Project progress</a></p><p id="exampleDescription"><small>The example is for software testing. To inspect your own data, select files below.</small></p>
 <label>CT image (.nii or .nii.gz)<input id="image" type="file" accept=".nii,.nii.gz"></label>
 <p><small>Full scans open one slice at a time. For faster browsing, extract a .nii.gz file and select the .nii file. Files remain on your device.</small></p>
 <label>Reference mask, optional (.nii or .nii.gz)<input id="mask" type="file" accept=".nii,.nii.gz" disabled></label>
+<label>Prediction mask, optional (.nii or .nii.gz)<input id="prediction" type="file" accept=".nii,.nii.gz" disabled></label>
+<label>Display overlay <select id="overlay" disabled><option value="none">CT only</option><option value="reference" disabled>Reference annotation</option><option value="prediction" disabled>Supplied prediction</option></select></label>
 <label>Stored Z slice: <output id="sliceNumber">—</output><input id="slice" type="range" min="0" max="0" value="0" disabled></label>
-<p id="status" role="status">Choose an image to begin.</p><canvas id="view" width="1" height="1" aria-label="Stored axial slice with optional reference mask"></canvas>
-<p><small>Reference labels: 1 kidney (teal), 2 tumor (orange), 3 cyst (blue). They are supplied annotations, not model predictions. Research and software testing only.</small></p>
-<script src="nifti.js?v=2"></script><script src="viewer.js?v=2"></script></body></html>
+<p id="status" role="status">Choose an image to begin.</p><p id="overlayDescription" aria-live="polite">CT image · no overlay</p><canvas id="view" width="1" height="1" aria-label="Stored axial CT slice with the selected labelled overlay"></canvas>
+<p><small>Labels: 1 kidney (teal), 2 tumor (orange), 3 cyst (blue). Reference annotations and model predictions are different inputs. Displaying a prediction does not verify its accuracy. Research and software testing only.</small></p>
+<script src="nifti.js?v=2"></script><script src="viewer.js?v=3"></script></body></html>

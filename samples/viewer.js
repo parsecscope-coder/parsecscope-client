@@ -1,87 +1,67 @@
 (() => {
   'use strict';
-  const $ = id => document.getElementById(id);
-  const imageInput = $('image'), maskInput = $('mask'), slider = $('slice');
-  const canvas = $('view'), ctx = canvas.getContext('2d'), status = $('status');
-  let image = null, mask = null, imageRead = null, maskRead = null, sliceRead = null;
-  let sliderTimer;
-  function clearView() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    $('sliceNumber').value = '—';
+  const $=id=>document.getElementById(id), canvas=$('view'), ctx=canvas.getContext('2d');
+  const inputs={image:$('image'),reference:$('mask'),prediction:$('prediction')};
+  const volumes={image:null,reference:null,prediction:null}, reads={};
+  const slider=$('slice'), overlay=$('overlay'), status=$('status');
+  let sliceRead=null,timer;
+  const colors=[[0,0,0],[54,212,177],[255,175,84],[133,170,255]];
+  const clear=()=>{ctx.clearRect(0,0,canvas.width,canvas.height);$('sliceNumber').value='—';};
+  const value=(v,d,i)=>v.read(d,i*v.voxelBytes,v.little)*v.slope+v.intercept;
+  function controls(){
+    inputs.reference.disabled=inputs.prediction.disabled=slider.disabled=!volumes.image;
+    overlay.disabled=!volumes.image;
+    for(const kind of ['reference','prediction'])overlay.querySelector(`option[value="${kind}"]`).disabled=!volumes[kind];
+    if(overlay.value!=='none'&&!volumes[overlay.value])overlay.value='none';
   }
-  function value(vol, data, index) {
-    return vol.read(data,index * vol.voxelBytes,vol.little) * vol.slope + vol.intercept;
-  }
-  async function render() {
-    sliceRead?.abort();
-    if (!image) return;
-    const control = sliceRead = new AbortController(), signal = control.signal;
-    const currentImage = image, currentMask = mask;
-    const z = Number(slider.value), {nx,ny} = currentImage;
-    clearView();
-    status.textContent = `Reading slice ${z + 1} / ${currentImage.nz} locally…${currentImage.gzip || currentMask?.gzip ? ' Compressed scans may take a moment.' : ''}`;
-    try {
-      const [pixels, labels] = await Promise.all([currentImage.slice(z,signal),currentMask ? currentMask.slice(z,signal) : null]);
-      if (signal.aborted) return;
-      canvas.width = nx; canvas.height = ny;
-      const frame = ctx.createImageData(nx,ny), color = [[0,0,0],[54,212,177],[255,175,84],[133,170,255]];
-      for (let y=0;y<ny;y++) for (let x=0;x<nx;x++) {
-        const index = y * nx + x, i = 4 * ((ny - 1 - y) * nx + x);
-        const raw = value(currentImage,pixels,index), grey = Number.isFinite(raw) ? Math.max(0,Math.min(255,Math.round((raw + 160) * 255 / 380))) : 0;
-        frame.data[i] = frame.data[i+1] = frame.data[i+2] = grey; frame.data[i+3] = 255;
-        if (labels) {
-          const label = Math.round(value(currentMask,labels,index));
-          if (label > 0 && label < color.length) for (let c=0;c<3;c++) frame.data[i+c] = Math.round(.4*grey + .6*color[label][c]);
-        }
+  async function render(){
+    sliceRead?.abort();if(!volumes.image)return;
+    const signal=(sliceRead=new AbortController()).signal;
+    const image=volumes.image,kind=overlay.value,mask=volumes[kind],z=Number(slider.value);
+    clear();$('overlayDescription').textContent=kind==='reference'?'Reference mask · supplied annotation':kind==='prediction'?'Prediction mask · supplied model output; accuracy not verified':'CT image · no overlay';
+    status.textContent=`Reading slice ${z+1} / ${image.nz} locally…`;
+    try{
+      const [pixels,labels]=await Promise.all([image.slice(z,signal),mask?mask.slice(z,signal):null]);if(signal.aborted)return;
+      canvas.width=image.nx;canvas.height=image.ny;const frame=ctx.createImageData(image.nx,image.ny);
+      for(let y=0;y<image.ny;y++)for(let x=0;x<image.nx;x++){
+        const index=y*image.nx+x,i=4*((image.ny-1-y)*image.nx+x),raw=value(image,pixels,index);
+        const grey=Number.isFinite(raw)?Math.max(0,Math.min(255,Math.round((raw+160)*255/380))):0;
+        frame.data[i]=frame.data[i+1]=frame.data[i+2]=grey;frame.data[i+3]=255;
+        if(labels){const label=Math.round(value(mask,labels,index));if(label>0&&label<colors.length)for(let c=0;c<3;c++)frame.data[i+c]=Math.round(.4*grey+.6*colors[label][c]);}
       }
-      ctx.putImageData(frame,0,0);
-      $('sliceNumber').value = `${z + 1} / ${currentImage.nz}`;
-      status.textContent = `${nx} × ${ny} × ${currentImage.nz} voxels · slice ${z + 1} loaded locally${labels ? ' with reference overlay' : ''}. No upload or AI inference.`;
-    } catch (e) {
-      if (signal.aborted) return;
-      control.abort(); clearView();
-      status.textContent = `Cannot display slice: ${e.message}`;
-    }
+      ctx.putImageData(frame,0,0);$('sliceNumber').value=`${z+1} / ${image.nz}`;
+      status.textContent=`${image.nx} × ${image.ny} × ${image.nz} voxels · slice ${z+1} loaded locally · ${labels?kind+' overlay':'CT only'}. Files remain local. No inference or upload.`;
+    }catch(e){if(!signal.aborted){sliceRead.abort();clear();status.textContent=`Cannot display slice: ${e.message}`;}}
   }
-  async function load(input,isMask) {
-    clearTimeout(sliderTimer); sliceRead?.abort();
-    if (isMask) { maskRead?.abort(); mask = null; }
-    else {
-      imageRead?.abort(); maskRead?.abort(); image = null; mask = null;
-      maskInput.value = ''; maskInput.disabled = true; slider.disabled = true; clearView();
-    }
-    const file = input.files[0];
-    if (!file) { slider.disabled = !image; if (image) await render(); else status.textContent = 'Choose an image to begin.'; return; }
-    const control = new AbortController();
-    if (isMask) maskRead = control; else imageRead = control;
-    const expectedImage = image;
-    if (isMask) { slider.disabled = true; clearView(); }
-    status.textContent = `Reading ${file.name} locally…`;
-    try {
-      if (isMask && !image) throw Error('Choose an image before its mask.');
-      const vol = await ParsecNifti.openVolume(file,control.signal);
-      if (control.signal.aborted) return;
-      if (isMask) {
-        if (image !== expectedImage) return;
-        if (!ParsecNifti.matchingGeometry(image,vol)) throw Error('Mask dimensions or spatial geometry do not match the image.');
-        mask = vol;
-      } else {
-        image = vol;
-        slider.max = String(vol.nz - 1); slider.value = String(Math.floor(vol.nz / 2)); maskInput.disabled = false;
+  async function load(file,kind){
+    clearTimeout(timer);sliceRead?.abort();reads[kind]?.abort();volumes[kind]=null;
+    if(kind==='image')for(const other of ['reference','prediction']){reads[other]?.abort();volumes[other]=null;inputs[other].value='';}
+    controls();clear();if(!file){if(volumes.image)await render();else status.textContent='Choose an image to begin.';return;}
+    const signal=(reads[kind]=new AbortController()).signal,expected=volumes.image;
+    status.textContent=`Reading ${file.name} locally…`;
+    try{
+      if(kind!=='image'&&!expected)throw Error('Choose the CT image first.');
+      const volume=await ParsecNifti.openVolume(file,signal);if(signal.aborted)return;
+      if(kind!=='image'){
+        if(expected!==volumes.image)return;
+        if(!ParsecNifti.matchingGeometry(expected,volume))throw Error(`${kind==='prediction'?'Prediction':'Reference'} dimensions or spatial geometry do not match the image.`);
       }
-      slider.disabled = false;
-      await render();
-    } catch (e) {
-      if (control.signal.aborted) return;
-      if (isMask) { mask = null; maskInput.value = ''; slider.disabled = !image; }
-      clearView();
-      status.textContent = `Cannot display file: ${e.message}${isMask ? ' Move the slice slider to view the CT without an overlay.' : ''}`;
-    }
+      volumes[kind]=volume;
+      if(kind==='image'){slider.max=String(volume.nz-1);slider.value=String(Math.floor(volume.nz/2));overlay.value='none';}
+      controls();if(kind!=='image')overlay.value=kind;await render();
+    }catch(e){if(!signal.aborted){volumes[kind]=null;inputs[kind].value='';controls();clear();status.textContent=`Cannot display file: ${e.message} Choose another file or move the slice slider to continue.`;}}
   }
-  imageInput.addEventListener('change',()=>load(imageInput,false));
-  maskInput.addEventListener('change',()=>load(maskInput,true));
-  slider.addEventListener('input',()=>{
-    sliceRead?.abort(); clearTimeout(sliderTimer); clearView();
-    sliderTimer = setTimeout(render,100);
+  for(const [kind,input] of Object.entries(inputs))input.addEventListener('change',()=>load(input.files[0],kind));
+  overlay.addEventListener('change',render);
+  slider.addEventListener('input',()=>{sliceRead?.abort();clearTimeout(timer);clear();timer=setTimeout(render,100);});
+  $('sample').addEventListener('click',async()=>{
+    const button=$('sample');button.disabled=true;status.textContent='Loading the synthetic example…';
+    try{
+      const urls=['images/synthetic_01_ct.nii.gz','reference_masks/synthetic_01_mask.nii.gz'];
+      const files=await Promise.all(urls.map(async url=>{const r=await fetch(url);if(!r.ok)throw Error('Sample download failed.');return new File([await r.blob()],url.split('/').pop());}));
+      await load(files[0],'image');await load(files[1],'reference');
+      if(volumes.reference)$('exampleDescription').textContent='Synthetic software-test example loaded. The overlay is a supplied reference annotation, not an AI prediction.';
+    }catch(e){status.textContent=e.message;}finally{button.disabled=false;}
   });
+  controls();
 })();
